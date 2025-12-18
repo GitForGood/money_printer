@@ -1,0 +1,110 @@
+# Placeholder Logic & Implementation Plan
+
+This document maps out the files in the project that currently rely on placeholder logic or mock data and provides a plan to flesh them out.
+
+## Server API (Backend)
+
+The server API mostly returns hardcoded mock data. These endpoints need to be connected to the Supabase database.
+
+### `server/api/game/tick.post.ts`
+- **Current State**: Uses a hardcoded `mockCompanies` array and a random number generator for market trends.
+- **Missing**: 
+  - Database connection to fetch real `companies` and `market_state`.
+  - Persistence of updated state back to the database.
+  - Integration with a proper `MarketService` for complex simulation logic.
+- **Plan**:
+  1. Inject `SupabaseClient`.
+  2. Fetch all public companies from DB.
+  3. Call `simulateMarketTick` (refactor to accept/return DB entities).
+  4. Batch update companies in DB with new prices/volatility.
+  5. Create a `market_history` record for the tick.
+
+### `server/api/player/profile.get.ts`
+- **Current State**: Returns a static JSON object for user "usr_001".
+- **Missing**:
+  - Authentication check (get user from context).
+  - Database lookup for the specific user's stats (reputation, heat, karma, etc.).
+- **Plan**:
+  1. Use `serverSupabaseUser` to get authenticated user ID.
+  2. Query `users` table for profile data.
+  3. Query `player_stats` table for dynamic stats (heat, karma).
+  4. Return combined profile object.
+
+### `server/api/economy/summary.get.ts`
+- **Current State**: Returns hardcoded `FinancialState` (net worth, cash, debt).
+- **Missing**:
+  - Aggregation of real data from `assets`, `loans`, and `wallet` tables.
+- **Plan**:
+  1. Fetch user's cash balance.
+  2. Sum value of all entries in `assets` table for the user.
+  3. Sum outstanding principal of all entries in `loans` table.
+  4. Calculate Net Worth = (Cash + Assets) - Debt.
+  5. Return calculated summary.
+
+### `server/api/assets/index.get.ts`
+- **Current State**: Returns a mixed hardcoded list of stocks, real estate, and businesses.
+- **Missing**:
+  - DB query for user's assets.
+- **Plan**:
+  1. Query `assets` table where `owner_id` matches current user.
+  2. Join with specific type tables if necessary (e.g. `asset_properties` for real estate details) or handle via JSONB column.
+  3. Map DB rows to `BaseAsset` interface.
+
+### `server/api/actions/perform.post.ts`
+- **Current State**: Basic validation, followed by a hardcoded "success" response.
+- **Missing**:
+  - Action verification (Cost check, AP check).
+  - Execution logic (applying effects to player/world).
+- **Plan**:
+  1. Load action definition based on `actionId`.
+  2. Validate player has required resources (Cash, AP).
+  3. Deduct resources.
+  4. Apply action effects (update DB).
+  5. Return result and updated state.
+
+## Frontend (App)
+
+The frontend uses a mix of API calls (which return mocks everywhere) and local component-level mocks.
+
+### `app/composables/usePortfolio.ts`
+- **Current State**: 
+  - `buyAsset`: Placeholder alert/comment.
+  - `takeLoan`: Placeholder alert.
+- **Missing**:
+  - Real API integration for mutations.
+  - Error handling and state updates after mutation.
+- **Plan**:
+  1. Implement `buyAsset` to POST to `/api/assets/buy`.
+  2. Implement `takeLoan` to POST to `/api/loans/take`.
+  3. Add toast notifications for success/failure.
+  4. Trigger `fetchAssets` and `fetchLoans` upon success to update UI.
+
+### `app/composables/useMarket.ts`
+- **Current State**: `topGainers` uses a placeholder sort logic.
+- **Missing**:
+  - Robust sorting/filtering (though this might belong on backend).
+- **Plan**:
+  1. Ensure `companies` state is populated from API.
+  2. Implement proper sorting by `% change` (requires tracking previous price or change delta from API).
+
+### `app/pages/loans.vue`
+- **Current State**: `const loans = ref([...])` defines local mock data.
+- **Missing**:
+  - Connection to `usePortfolio` to get real loans.
+- **Plan**:
+  1. Remove local `loans` ref.
+  2. Import `usePortfolio`.
+  3. Use `const { loans, fetchLoans } = usePortfolio()`.
+  4. Call `fetchLoans()` on mount.
+  5. Update template to iterate over the composable's `loans`.
+
+### `app/pages/assets.vue`
+- **Current State**: `const assets = ref([...])` defines local mock data.
+- **Missing**:
+  - Connection to `usePortfolio` to get real assets.
+- **Plan**:
+  1. Remove local `assets` ref.
+  2. Import `usePortfolio`.
+  3. Use `const { assets, fetchAssets } = usePortfolio()`.
+  4. Call `fetchAssets()` on mount.
+  5. Update template to iterate over the composable's `assets`.
