@@ -44,8 +44,8 @@
       <div class="actions-section mt-4">
         <TerminalPanel title="QUICK ACTIONS">
            <div class="flex gap-4">
-              <BracketedButton to="/assets">MANAGE ASSETS</BracketedButton>
-              <BracketedButton to="/loans">MANAGE DEBT</BracketedButton>
+              <ActionLink to="/assets">MANAGE ASSETS</ActionLink>
+              <ActionLink to="/loans">MANAGE DEBT</ActionLink>
               <EmphasizedButton>END TURN (NEXT QUARTER)</EmphasizedButton>
            </div>
         </TerminalPanel>

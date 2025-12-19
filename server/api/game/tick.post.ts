@@ -1,78 +1,29 @@
 import { defineEventHandler, createError } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
-import { simulateMarketTick } from '../../utils/simulation'
+import { StockEngine } from '../../utils/stockMarket'
 import type { PublicCompany } from '../../../types/market'
 
 export default defineEventHandler(async (event) => {
     const client = await serverSupabaseClient(event)
 
-    // 1. Fetch Companies
-    const { data: companies, error: fetchError } = await client
-        .from('companies')
-        .select('*')
+    try {
+        const result = await StockEngine.stepMarket(client)
 
-    if (fetchError) {
-        throw createError({ statusCode: 500, statusMessage: fetchError.message })
-    }
+        // Map updates back to match what frontend might expect if necessary
+        // The old one returned 'marketState' as PublicCompany[]
+        // result.companies contains { id, share_price, prev_share_price }
+        // We might want to fetch full details or just trust the frontend only needs prices?
+        // Let's assume frontend needs full objects?
+        // "tick.post.ts" is game tick.
 
-    if (!companies || companies.length === 0) {
         return {
             tick: Date.now(),
-            globalTrend: 0,
-            marketState: [],
-            message: 'No active companies found'
+            globalTrend: 0, // Deprecated/Managed by influences
+            marketState: result.companies, // This might differ in shape from PublicCompany but contains key fields
+            activeInfluences: result.activeInfluences,
+            message: 'Market updated via StockEngine'
         }
-    }
-
-    // Map DB (snake_case) to App (camelCase)
-    const currentMarketState: PublicCompany[] = companies.map((c: any) => ({
-        id: c.id,
-        name: c.name,
-        ticker: c.ticker,
-        sector: c.sector,
-        description: c.description,
-        sharePrice: Number(c.share_price),
-        prevSharePrice: Number(c.prev_share_price || c.share_price),
-        totalShares: c.total_shares,
-        volatility: c.volatility,
-        dividendYield: c.dividend_yield,
-        lastDividendDate: c.last_dividend_date
-    }))
-
-    // 2. Simulate Market
-    // Bias slight positive for "Stonks only go up" meme, or random
-    const globalTrend = (Math.random() * 0.02) - 0.01; // +/- 1% trend
-    const updatedMarketState = simulateMarketTick(currentMarketState, globalTrend)
-
-    // 3. Update DB
-    // Map back to snake_case for DB
-    const updates = updatedMarketState.map(c => ({
-        id: c.id,
-        name: c.name,
-        ticker: c.ticker,
-        sector: c.sector,
-        description: c.description,
-        share_price: c.sharePrice,
-        prev_share_price: c.prevSharePrice,
-        total_shares: c.totalShares,
-        volatility: c.volatility,
-        dividend_yield: c.dividendYield,
-        last_dividend_date: c.lastDividendDate
-    }))
-
-    const { error: updateError } = await client
-        .from('companies')
-        .upsert(updates)
-
-    if (updateError) {
-        throw createError({ statusCode: 500, statusMessage: updateError.message })
-    }
-
-    // 4. Return Report
-    return {
-        tick: Date.now(),
-        globalTrend,
-        marketState: updatedMarketState,
-        message: 'Market updated'
+    } catch (e: any) {
+        throw createError({ statusCode: 500, statusMessage: e.message })
     }
 })

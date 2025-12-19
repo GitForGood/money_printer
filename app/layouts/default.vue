@@ -9,6 +9,10 @@
   </div>
 </template>
 
+<script lang="ts" setup>
+// Layout logic if any
+</script>
+
 <style scoped>
 .layout-default {
   display: flex;

@@ -14,4 +14,26 @@ export interface PublicCompany {
     // Dividends
     dividendYield: number; // Annual %
     lastDividendDate?: string;
+
+    // Simulation Data
+    priceHistory: number[]; // Store last N ticks
+}
+
+export type InfluenceType = 'sector_mod' | 'global_mod' | 'company_mod';
+
+export interface MarketInfluence {
+    id: string;
+    name: string;
+    description: string;
+    type: InfluenceType;
+    target?: string; // key of sector or ticker
+    duration: number; // Remaining quarters
+    strength: number; // Multiplier or additive effect
+    eventSourceId?: string; // If this came from a specific event
+}
+
+export interface MarketState {
+    lastTick: string; // ISO Date of last market step
+    quarter: number; // Current game quarter
+    activeInfluences: MarketInfluence[];
 }

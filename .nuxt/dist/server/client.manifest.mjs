@@ -1,1 +1,1 @@
-export { default } from "file:///C:/Users/swegr/Documents/GitHub/money_printer/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
+export { default } from "file:///home/oliver/Documents/github/money_printer/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

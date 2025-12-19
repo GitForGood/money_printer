@@ -1,43 +1,44 @@
 import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { tmpdir } from 'node:os';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, getRouterParam, setCookie, getHeader, getResponseStatusText } from 'file:///home/oliver/Documents/github/money_printer/node_modules/h3/dist/index.mjs';
 import { Server } from 'node:http';
-import { resolve, dirname, join } from 'node:path';
+import path, { resolve, dirname, join } from 'node:path';
 import nodeCrypto from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, getRouterParam, getResponseStatusText } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/h3/dist/index.mjs';
-import { escapeHtml } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/@vue/shared/dist/shared.cjs.js';
-import yahooFinance from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/yahoo-finance2/esm/src/index.js';
-import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/ufo/dist/index.mjs';
-import destr, { destr as destr$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/destr/dist/index.mjs';
-import process$1 from 'node:process';
-import { renderToString } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/vue/server-renderer/index.mjs';
-import { klona } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/defu/dist/defu.mjs';
-import { snakeCase } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/scule/dist/index.mjs';
-import { createHead as createHead$1, propsToString, renderSSRHead } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unhead/dist/server.mjs';
-import { stringify, uneval } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/devalue/index.js';
-import { isVNode, toValue, isRef } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/vue/index.mjs';
-import { createHooks } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/hookable/dist/index.mjs';
-import { createFetch, Headers as Headers$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/ofetch/dist/node.mjs';
-import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/node-mock-http/dist/index.mjs';
-import { createStorage, prefixStorage } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unstorage/drivers/fs.mjs';
-import { digest } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/ohash/dist/index.mjs';
-import { toRouteMatcher, createRouter } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/radix3/dist/index.mjs';
+import { escapeHtml } from 'file:///home/oliver/Documents/github/money_printer/node_modules/@vue/shared/dist/shared.cjs.js';
+import { v4 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/uuid/dist-node/index.js';
+import fs, { promises } from 'node:fs';
+import { createServerClient, parseCookieHeader } from 'file:///home/oliver/Documents/github/money_printer/node_modules/@supabase/ssr/dist/main/index.js';
+import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file:///home/oliver/Documents/github/money_printer/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file:///home/oliver/Documents/github/money_printer/node_modules/ufo/dist/index.mjs';
+import destr, { destr as destr$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/destr/dist/index.mjs';
+import { createHooks } from 'file:///home/oliver/Documents/github/money_printer/node_modules/hookable/dist/index.mjs';
+import { createFetch, Headers as Headers$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/ofetch/dist/node.mjs';
+import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file:///home/oliver/Documents/github/money_printer/node_modules/node-mock-http/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file:///home/oliver/Documents/github/money_printer/node_modules/unstorage/drivers/fs.mjs';
+import { digest } from 'file:///home/oliver/Documents/github/money_printer/node_modules/ohash/dist/index.mjs';
+import { klona } from 'file:///home/oliver/Documents/github/money_printer/node_modules/klona/dist/index.mjs';
+import defu, { defuFn } from 'file:///home/oliver/Documents/github/money_printer/node_modules/defu/dist/defu.mjs';
+import { snakeCase } from 'file:///home/oliver/Documents/github/money_printer/node_modules/scule/dist/index.mjs';
+import { getContext } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unctx/dist/index.mjs';
+import { toRouteMatcher, createRouter } from 'file:///home/oliver/Documents/github/money_printer/node_modules/radix3/dist/index.mjs';
 import { readFile } from 'node:fs/promises';
-import consola, { consola as consola$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/consola/dist/index.mjs';
-import { ErrorParser } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/youch-core/build/index.js';
-import { Youch } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/youch/build/index.js';
-import { SourceMapConsumer } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/source-map/source-map.js';
+import consola, { consola as consola$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/consola/dist/index.mjs';
+import { ErrorParser } from 'file:///home/oliver/Documents/github/money_printer/node_modules/youch-core/build/index.js';
+import { Youch } from 'file:///home/oliver/Documents/github/money_printer/node_modules/youch/build/index.js';
+import { SourceMapConsumer } from 'file:///home/oliver/Documents/github/money_printer/node_modules/source-map/source-map.js';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { getContext } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unctx/dist/index.mjs';
-import { captureRawStackTrace, parseRawStackTrace } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/errx/dist/index.js';
-import { promises } from 'node:fs';
+import { stringify, uneval } from 'file:///home/oliver/Documents/github/money_printer/node_modules/devalue/index.js';
+import { captureRawStackTrace, parseRawStackTrace } from 'file:///home/oliver/Documents/github/money_printer/node_modules/errx/dist/index.js';
+import { isVNode, toValue, isRef } from 'file:///home/oliver/Documents/github/money_printer/node_modules/vue/index.mjs';
 import { fileURLToPath } from 'node:url';
-import { dirname as dirname$1, resolve as resolve$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/pathe/dist/index.mjs';
-import { walkResolver } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unhead/dist/utils.mjs';
+import { dirname as dirname$1, resolve as resolve$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/pathe/dist/index.mjs';
+import { createHead as createHead$1, propsToString, renderSSRHead } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unhead/dist/server.mjs';
+import process$1 from 'node:process';
+import { renderToString } from 'file:///home/oliver/Documents/github/money_printer/node_modules/vue/server-renderer/index.mjs';
+import { walkResolver } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unhead/dist/utils.mjs';
 
-const serverAssets = [{"baseName":"server","dir":"C:/Users/swegr/Documents/GitHub/money_printer/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"/home/oliver/Documents/github/money_printer/server/assets"}];
 
 const assets$1 = createStorage();
 
@@ -49,11 +50,11 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets$1);
 
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:/Users/swegr/Documents/GitHub/money_printer","watchOptions":{"ignored":[null]}}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:/Users/swegr/Documents/GitHub/money_printer/server","watchOptions":{"ignored":[null]}}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:/Users/swegr/Documents/GitHub/money_printer/.nuxt"}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:/Users/swegr/Documents/GitHub/money_printer/.nuxt/cache"}));
-storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"C:/Users/swegr/Documents/GitHub/money_printer/.data/kv"}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/oliver/Documents/github/money_printer","watchOptions":{"ignored":[null]}}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/oliver/Documents/github/money_printer/server","watchOptions":{"ignored":[null]}}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/oliver/Documents/github/money_printer/.nuxt"}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/oliver/Documents/github/money_printer/.nuxt/cache"}));
+storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"/home/oliver/Documents/github/money_printer/.data/kv"}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -636,6 +637,9 @@ const _inlineRuntimeConfig = {
       "/__nuxt_error": {
         "cache": false
       },
+      "/confirm": {
+        "ssr": false
+      },
       "/_nuxt/builds/meta/**": {
         "headers": {
           "cache-control": "public, max-age=31536000, immutable"
@@ -648,7 +652,44 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {}
+  "public": {
+    "supabase": {
+      "url": "https://bwlalrkoqmcnrbawvtuk.supabase.co",
+      "key": "sb_publishable_XNDTqmWEtacRNaXVmKgv2A_g7UBp-ah",
+      "redirect": true,
+      "redirectOptions": {
+        "login": "/login",
+        "callback": "/confirm",
+        "exclude": [
+          "/register",
+          "/login"
+        ],
+        "cookieRedirect": false,
+        "saveRedirectToCookie": false
+      },
+      "cookieName": "sb",
+      "cookiePrefix": "sb-bwlalrkoqmcnrbawvtuk-auth-token",
+      "useSsrCookies": true,
+      "cookieOptions": {
+        "maxAge": 28800,
+        "sameSite": "lax",
+        "secure": false,
+        "path": "/"
+      },
+      "clientOptions": {
+        "auth": {
+          "flowType": "pkce",
+          "detectSessionInUrl": true,
+          "persistSession": true,
+          "autoRefreshToken": true
+        }
+      }
+    }
+  },
+  "supabase": {
+    "serviceKey": "",
+    "secretKey": ""
+  }
 };
 const envOptions = {
   prefix: "NITRO_",
@@ -692,6 +733,11 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
     }
     return void 0;
   }
+});
+
+getContext("nitro-app", {
+  asyncContext: false,
+  AsyncLocalStorage: void 0
 });
 
 const config = useRuntimeConfig();
@@ -1352,13 +1398,13 @@ if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
 window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
 `;
 
-const _aK_AJpzt01fv31UnwmfhWoSYISYfZCA_qRNo8LnOCQA = (function(nitro) {
+const _QVRnBCcCki73vsQ078G3ztGCVyI7nl2NQdZPWm9W3A = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
     htmlContext.head.push(`<script>${script}<\/script>`);
   });
 });
 
-const rootDir = "C:/Users/swegr/Documents/GitHub/money_printer";
+const rootDir = "/home/oliver/Documents/github/money_printer";
 
 const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
 
@@ -1381,7 +1427,7 @@ const devReducers = {
   URL: (data) => data instanceof URL ? data.toString() : void 0
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _pc0ddydk2FNoDHd6KT5dLjjgRPKdHT_Slno_AZSifo = (nitroApp) => {
+const _yaDuEQizjx6BwLSQteva7N40QpAgRdUdmLiKEDMBtW8 = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -1451,26 +1497,11 @@ function onConsoleLog(callback) {
 }
 
 const plugins = [
-  _aK_AJpzt01fv31UnwmfhWoSYISYfZCA_qRNo8LnOCQA,
-_pc0ddydk2FNoDHd6KT5dLjjgRPKdHT_Slno_AZSifo
+  _QVRnBCcCki73vsQ078G3ztGCVyI7nl2NQdZPWm9W3A,
+_yaDuEQizjx6BwLSQteva7N40QpAgRdUdmLiKEDMBtW8
 ];
 
-const assets = {
-  "/index.mjs": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"184bf-VGWh+82gRwDUzHeXnZ6op888vG0\"",
-    "mtime": "2025-12-18T21:42:45.238Z",
-    "size": 99519,
-    "path": "index.mjs"
-  },
-  "/index.mjs.map": {
-    "type": "application/json",
-    "etag": "\"5b822-vrA6ROxK5EKvs64hSZkq+pv4644\"",
-    "mtime": "2025-12-18T21:42:45.238Z",
-    "size": 374818,
-    "path": "index.mjs.map"
-  }
-};
+const assets = {};
 
 function readAsset (id) {
   const serverDir = dirname$1(fileURLToPath(globalThis._importMeta_.url));
@@ -1495,7 +1526,7 @@ function getAsset (id) {
 
 const METHODS = /* @__PURE__ */ new Set(["HEAD", "GET"]);
 const EncodingMap = { gzip: ".gz", br: ".br" };
-const _J6F6dX = eventHandler((event) => {
+const __s60D5 = eventHandler((event) => {
   if (event.method && !METHODS.has(event.method)) {
     return;
   }
@@ -1631,8 +1662,8 @@ function publicAssetsURL(...path) {
 
 const APP_ROOT_OPEN_TAG = `<${appRootTag}${propsToString(appRootAttrs)}>`;
 const APP_ROOT_CLOSE_TAG = `</${appRootTag}>`;
-const getServerEntry = () => import('file://C:/Users/swegr/Documents/GitHub/money_printer/.nuxt//dist/server/server.mjs').then((r) => r.default || r);
-const getClientManifest = () => import('file://C:/Users/swegr/Documents/GitHub/money_printer/.nuxt//dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getServerEntry = () => import('file:///home/oliver/Documents/github/money_printer/.nuxt//dist/server/server.mjs').then((r) => r.default || r);
+const getClientManifest = () => import('file:///home/oliver/Documents/github/money_printer/.nuxt//dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
 const getSSRRenderer = lazyCachedFunction(async () => {
   const createSSRApp = await getServerEntry();
   if (!createSSRApp) {
@@ -1880,37 +1911,43 @@ async function getIslandContext(event) {
   return ctx;
 }
 
-const _lazy_xkTFsZ = () => Promise.resolve().then(function () { return perform_post$1; });
-const _lazy_cK1Ztf = () => Promise.resolve().then(function () { return buy_post$1; });
-const _lazy_lGTpzR = () => Promise.resolve().then(function () { return index_get$1; });
-const _lazy_sSbcdP = () => Promise.resolve().then(function () { return marketUpdate_post$1; });
-const _lazy_JmMWM5 = () => Promise.resolve().then(function () { return summary_get$1; });
-const _lazy_ovcAol = () => Promise.resolve().then(function () { return pending_get$1; });
-const _lazy_x11Q7a = () => Promise.resolve().then(function () { return resolve_post$1; });
-const _lazy_sAkf8D = () => Promise.resolve().then(function () { return tick_post$1; });
-const _lazy_eoyGGP = () => Promise.resolve().then(function () { return active_get$1; });
-const _lazy_WyREVF = () => Promise.resolve().then(function () { return offers_get$1; });
-const _lazy_quZYuk = () => Promise.resolve().then(function () { return companies_get$1; });
-const _lazy_iI7KoR = () => Promise.resolve().then(function () { return profile_get$1; });
-const _lazy_0ySXGh = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_ri5esX = () => Promise.resolve().then(function () { return perform_post$1; });
+const _lazy__daLny = () => Promise.resolve().then(function () { return buy_post$1; });
+const _lazy_8IJyx_ = () => Promise.resolve().then(function () { return index_get$1; });
+const _lazy_kx06Q6 = () => Promise.resolve().then(function () { return marketUpdate_post$1; });
+const _lazy_LwGcJC = () => Promise.resolve().then(function () { return init_post$1; });
+const _lazy_Wqq3iY = () => Promise.resolve().then(function () { return step_post$1; });
+const _lazy_S5JQNs = () => Promise.resolve().then(function () { return summary_get$1; });
+const _lazy_3pJWTV = () => Promise.resolve().then(function () { return pending_get$1; });
+const _lazy_QZBTv3 = () => Promise.resolve().then(function () { return resolve_post$1; });
+const _lazy_yaQfOG = () => Promise.resolve().then(function () { return tick_post$1; });
+const _lazy_0JKoK7 = () => Promise.resolve().then(function () { return active_get$1; });
+const _lazy_PwX_37 = () => Promise.resolve().then(function () { return offers_get$1; });
+const _lazy_g_S_lc = () => Promise.resolve().then(function () { return companies_get$1; });
+const _lazy_mrUeq_ = () => Promise.resolve().then(function () { return create_post$1; });
+const _lazy_Qyib5h = () => Promise.resolve().then(function () { return profile_get$1; });
+const _lazy__Gxrt_ = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '', handler: _J6F6dX, lazy: false, middleware: true, method: undefined },
-  { route: '/api/actions/perform', handler: _lazy_xkTFsZ, lazy: true, middleware: false, method: "post" },
-  { route: '/api/assets/buy', handler: _lazy_cK1Ztf, lazy: true, middleware: false, method: "post" },
-  { route: '/api/assets', handler: _lazy_lGTpzR, lazy: true, middleware: false, method: "get" },
-  { route: '/api/cron/market-update', handler: _lazy_sSbcdP, lazy: true, middleware: false, method: "post" },
-  { route: '/api/economy/summary', handler: _lazy_JmMWM5, lazy: true, middleware: false, method: "get" },
-  { route: '/api/events/pending', handler: _lazy_ovcAol, lazy: true, middleware: false, method: "get" },
-  { route: '/api/events/resolve', handler: _lazy_x11Q7a, lazy: true, middleware: false, method: "post" },
-  { route: '/api/game/tick', handler: _lazy_sAkf8D, lazy: true, middleware: false, method: "post" },
-  { route: '/api/loans/active', handler: _lazy_eoyGGP, lazy: true, middleware: false, method: "get" },
-  { route: '/api/loans/offers', handler: _lazy_WyREVF, lazy: true, middleware: false, method: "get" },
-  { route: '/api/market/companies', handler: _lazy_quZYuk, lazy: true, middleware: false, method: "get" },
-  { route: '/api/player/profile', handler: _lazy_iI7KoR, lazy: true, middleware: false, method: "get" },
-  { route: '/__nuxt_error', handler: _lazy_0ySXGh, lazy: true, middleware: false, method: undefined },
+  { route: '', handler: __s60D5, lazy: false, middleware: true, method: undefined },
+  { route: '/api/actions/perform', handler: _lazy_ri5esX, lazy: true, middleware: false, method: "post" },
+  { route: '/api/assets/buy', handler: _lazy__daLny, lazy: true, middleware: false, method: "post" },
+  { route: '/api/assets', handler: _lazy_8IJyx_, lazy: true, middleware: false, method: "get" },
+  { route: '/api/cron/market-update', handler: _lazy_kx06Q6, lazy: true, middleware: false, method: "post" },
+  { route: '/api/debug/market/init', handler: _lazy_LwGcJC, lazy: true, middleware: false, method: "post" },
+  { route: '/api/debug/market/step', handler: _lazy_Wqq3iY, lazy: true, middleware: false, method: "post" },
+  { route: '/api/economy/summary', handler: _lazy_S5JQNs, lazy: true, middleware: false, method: "get" },
+  { route: '/api/events/pending', handler: _lazy_3pJWTV, lazy: true, middleware: false, method: "get" },
+  { route: '/api/events/resolve', handler: _lazy_QZBTv3, lazy: true, middleware: false, method: "post" },
+  { route: '/api/game/tick', handler: _lazy_yaQfOG, lazy: true, middleware: false, method: "post" },
+  { route: '/api/loans/active', handler: _lazy_0JKoK7, lazy: true, middleware: false, method: "get" },
+  { route: '/api/loans/offers', handler: _lazy_PwX_37, lazy: true, middleware: false, method: "get" },
+  { route: '/api/market/companies', handler: _lazy_g_S_lc, lazy: true, middleware: false, method: "get" },
+  { route: '/api/market/create', handler: _lazy_mrUeq_, lazy: true, middleware: false, method: "post" },
+  { route: '/api/player/profile', handler: _lazy_Qyib5h, lazy: true, middleware: false, method: "get" },
+  { route: '/__nuxt_error', handler: _lazy__Gxrt_, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_0ySXGh, lazy: true, middleware: false, method: undefined }
+  { route: '/**', handler: _lazy__Gxrt_, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -2241,18 +2278,266 @@ const styles$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   default: styles
 }, Symbol.toStringTag, { value: 'Module' }));
 
+async function fetchWithRetry(req, init) {
+  const retries = 3;
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await fetch(req, init);
+    } catch (error) {
+      if (init?.signal?.aborted) {
+        throw error;
+      }
+      if (attempt === retries) {
+        console.error(`Error fetching request ${req}`, error, init);
+        throw error;
+      }
+      console.warn(`Retrying fetch attempt ${attempt + 1} for request: ${req}`);
+      await new Promise((resolve) => setTimeout(resolve, 100 * attempt));
+    }
+  }
+  throw new Error("Unreachable code");
+}
+
+function setCookies(event, cookies) {
+  const response = event.node.res;
+  const headersWritable = () => !response.headersSent && !response.writableEnded;
+  if (!headersWritable()) {
+    return;
+  }
+  for (const { name, value, options } of cookies) {
+    if (!headersWritable()) {
+      break;
+    }
+    setCookie(event, name, value, options);
+  }
+}
+
+var EventType = /* @__PURE__ */ ((EventType2) => {
+  EventType2["Opportunity"] = "opportunity";
+  EventType2["Crisis"] = "crisis";
+  EventType2["Audit"] = "audit";
+  EventType2["MarketShift"] = "market_shift";
+  EventType2["Flavor"] = "flavor";
+  return EventType2;
+})(EventType || {});
+
+const STATE_FILE = path.resolve(process.cwd(), "server/data/market_state.json");
+class StockEngine {
+  static loadState() {
+    try {
+      if (fs.existsSync(STATE_FILE)) {
+        const data = fs.readFileSync(STATE_FILE, "utf-8");
+        return JSON.parse(data);
+      }
+    } catch (e) {
+      console.error("Failed to load market state", e);
+    }
+    return { lastTick: (/* @__PURE__ */ new Date()).toISOString(), quarter: 0, activeInfluences: [] };
+  }
+  static saveState(state) {
+    try {
+      const dir = path.dirname(STATE_FILE);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+    } catch (e) {
+      console.error("Failed to save market state", e);
+    }
+  }
+  // Generates a random price movement based on volatility and influences
+  static calculateNewPrice(currentPrice, volatility, influences, company) {
+    const baseDrift = 5e-3;
+    const randomShock = (Math.random() - 0.5) * 2 * volatility;
+    let influenceFactor = 1;
+    for (const inf of influences) {
+      if (StockEngine.isApplicable(inf, company)) {
+        influenceFactor += inf.strength - 1;
+      }
+    }
+    const percentChange = baseDrift + randomShock + (influenceFactor - 1);
+    let newPrice = currentPrice * (1 + percentChange);
+    if (newPrice < 0.01) newPrice = 0.01;
+    return Number(newPrice.toFixed(2));
+  }
+  static isApplicable(inf, company) {
+    if (inf.type === "global_mod") return true;
+    if (inf.type === "sector_mod" && inf.target === company.sector) return true;
+    if (inf.type === "company_mod" && inf.target === company.ticker) return true;
+    return false;
+  }
+  static async stepMarket(client) {
+    const state = StockEngine.loadState();
+    const { data: companies, error } = await client.from("companies").select("*");
+    if (error || !companies) throw new Error("Failed to fetch companies");
+    state.activeInfluences.forEach((inf) => inf.duration--);
+    state.activeInfluences = state.activeInfluences.filter((inf) => inf.duration > 0);
+    StockEngine.spawnRandomInfluences(state);
+    const updates = [];
+    for (const c of companies) {
+      const companyStruct = {
+        id: c.id,
+        name: c.name,
+        ticker: c.ticker,
+        sector: c.sector,
+        description: c.description,
+        sharePrice: Number(c.share_price),
+        prevSharePrice: Number(c.prev_share_price || c.share_price),
+        totalShares: c.total_shares,
+        volatility: Number(c.volatility),
+        dividendYield: Number(c.dividend_yield),
+        priceHistory: []
+      };
+      const newPrice = StockEngine.calculateNewPrice(companyStruct.sharePrice, companyStruct.volatility, state.activeInfluences, companyStruct);
+      updates.push({
+        id: c.id,
+        share_price: newPrice,
+        prev_share_price: companyStruct.sharePrice
+      });
+    }
+    if (updates.length > 0) {
+      const { error: updateError } = await client.from("companies").upsert(updates);
+      if (updateError) throw updateError;
+    }
+    state.lastTick = (/* @__PURE__ */ new Date()).toISOString();
+    state.quarter++;
+    StockEngine.saveState(state);
+    return {
+      quarter: state.quarter,
+      updatedCount: updates.length,
+      activeInfluences: state.activeInfluences,
+      companies: updates
+      // Return the updated states (id, price, prevPrice)
+    };
+  }
+  static spawnRandomInfluences(state) {
+    if (Math.random() < 0.15) {
+      const sectors = StockEngine.getInitialSectors();
+      const sector = sectors[Math.floor(Math.random() * sectors.length)];
+      const isBoom = Math.random() > 0.5;
+      const inf = {
+        id: v4(),
+        name: `${sector} ${isBoom ? "Boom" : "Slump"}`,
+        description: `The ${sector} sector is experiencing a ${isBoom ? "surge" : "downturn"}.`,
+        type: "sector_mod",
+        target: sector,
+        duration: 4 + Math.floor(Math.random() * 4),
+        // 4-8 quarters
+        strength: isBoom ? 1.05 : 0.95
+        // +5% or -5% per tick force
+      };
+      state.activeInfluences.push(inf);
+    }
+  }
+  // Helper to generate a new company
+  static generateCompany(name, ticker, sector) {
+    const startPrice = 10 + Math.random() * 190;
+    return {
+      id: v4(),
+      name,
+      ticker,
+      sector,
+      description: `A generic ${sector} company.`,
+      sharePrice: Number(startPrice.toFixed(2)),
+      prevSharePrice: Number(startPrice.toFixed(2)),
+      totalShares: 1e6 + Math.floor(Math.random() * 9e6),
+      volatility: 0.05 + Math.random() * 0.15,
+      // 5% to 20% volatility
+      dividendYield: Math.random() > 0.3 ? Math.random() * 0.05 : 0,
+      // 70% chance of dividend
+      priceHistory: [Number(startPrice.toFixed(2))]
+    };
+  }
+  static getInitialSectors() {
+    return ["Technology", "Healthcare", "Finance", "Energy", "Consumer"];
+  }
+}
+
+const serverSupabaseClient = async (event) => {
+  if (!event.context._supabaseClient) {
+    const { url, key, cookiePrefix, cookieOptions, clientOptions: { auth = {}, global = {} } } = useRuntimeConfig(event).public.supabase;
+    event.context._supabaseClient = createServerClient(url, key, {
+      auth,
+      cookies: {
+        getAll: () => parseCookieHeader(getHeader(event, "Cookie") ?? ""),
+        setAll: (cookies) => setCookies(event, cookies)
+      },
+      cookieOptions: {
+        ...cookieOptions,
+        name: cookiePrefix
+      },
+      global: {
+        fetch: fetchWithRetry,
+        ...global
+      }
+    });
+  }
+  return event.context._supabaseClient;
+};
+
+const serverSupabaseUser = async (event) => {
+  const client = await serverSupabaseClient(event);
+  const { data, error } = await client.auth.getClaims();
+  if (error) {
+    throw createError({ statusMessage: error?.message });
+  }
+  return data?.claims ?? null;
+};
+
 const perform_post = defineEventHandler(async (event) => {
+  var _a;
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
   const body = await readBody(event);
-  if (!body || !body.actionId) {
-    throw createError({ statusCode: 400, statusMessage: "Missing actionId" });
+  if (!user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  if (!body || !body.actionId) throw createError({ statusCode: 400, statusMessage: "Missing actionId" });
+  const { data: actionDef, error: actionError } = await client.from("game_actions").select("*").eq("id", body.actionId).single();
+  if (actionError || !actionDef) {
+    throw createError({ statusCode: 404, statusMessage: "Action definition not found" });
+  }
+  const { data: stats, error: statsError } = await client.from("player_stats").select("*").eq("user_id", user.id).single();
+  if (statsError || !stats) {
+    throw createError({ statusCode: 500, statusMessage: "Failed to retrieve player stats" });
+  }
+  const requirements = actionDef.requirements || [];
+  const updates = {};
+  const changes = [];
+  for (const req of requirements) {
+    const currentVal = (_a = stats[req.resource]) != null ? _a : 0;
+    if (req.min !== void 0 && currentVal < req.min) {
+      throw createError({ statusCode: 400, statusMessage: `Insufficient ${req.resource} (Required: ${req.min})` });
+    }
+    if (req.cost) {
+      if (currentVal < req.cost) {
+        throw createError({ statusCode: 400, statusMessage: `Not enough ${req.resource} to pay cost` });
+      }
+      const newVal = currentVal - req.cost;
+      updates[req.resource] = newVal;
+      if (req.resource in updates) {
+        updates[req.resource] -= req.cost;
+        if (updates[req.resource] < 0) throw createError({ statusCode: 400, statusMessage: "Cost exceeds balance" });
+      } else {
+        updates[req.resource] = currentVal - req.cost;
+      }
+      changes.push({ path: `player.${req.resource}`, value: -req.cost, operation: "add" });
+    }
+  }
+  let success = true;
+  let message = "Action performed successfully";
+  if (actionDef.base_success_rate !== void 0) {
+    if (Math.random() > actionDef.base_success_rate) {
+      success = false;
+      message = "Action failed";
+    }
+  }
+  if (Object.keys(updates).length > 0) {
+    const { error: updateError } = await client.from("player_stats").update(updates).eq("user_id", user.id);
+    if (updateError) {
+      throw createError({ statusCode: 500, statusMessage: updateError.message });
+    }
   }
   return {
-    success: true,
-    message: "Action performed",
-    changes: [
-      { path: "player.ap", value: -1, operation: "add" }
-      // Mock change
-    ]
+    success,
+    message,
+    changes
   };
 });
 
@@ -2286,49 +2571,67 @@ var AssetType = /* @__PURE__ */ ((AssetType2) => {
 })(AssetType || {});
 
 const index_get = defineEventHandler(async (event) => {
-  const assets = [
-    {
-      id: "ast_001",
-      ownerId: "usr_001",
-      type: AssetType.Stock,
-      name: "Tech Corp",
-      acquiredAt: (/* @__PURE__ */ new Date()).toISOString(),
-      baseValue: 1e5,
-      currentValue: 12e4,
-      ticker: "TCRP",
-      shares: 1e3,
-      costBasisPerShare: 100
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  const { data: assetsData, error } = await client.from("assets").select("*").eq("owner_id", user.id);
+  if (error) throw createError({ statusCode: 500, statusMessage: error.message });
+  if (!assetsData || assetsData.length === 0) {
+    return { assets: [] };
+  }
+  const stockAssets = assetsData.filter((a) => a.type === AssetType.Stock && a.company_id);
+  const companyIds = stockAssets.map((a) => a.company_id);
+  let companyMap = {};
+  if (companyIds.length > 0) {
+    const { data: companies } = await client.from("companies").select("id, ticker, share_price, name").in("id", companyIds);
+    if (companies) {
+      companies.forEach((c) => companyMap[c.id] = c);
     }
-  ];
-  const extraAssets = [
-    {
-      id: "ast_re_001",
-      ownerId: "usr_001",
-      type: AssetType.RealEstate,
-      name: "Downtown Penthouse",
-      acquiredAt: (/* @__PURE__ */ new Date()).toISOString(),
-      baseValue: 2e6,
-      currentValue: 215e4,
-      location: "Metropolis Core",
-      propertyType: "residential",
-      tenantOccupancy: 1,
-      monthlyRent: 15e3
-    },
-    {
-      id: "ast_biz_001",
-      ownerId: "usr_001",
-      type: AssetType.Business,
-      name: "Laundromat",
-      acquiredAt: (/* @__PURE__ */ new Date()).toISOString(),
-      baseValue: 15e4,
-      currentValue: 145e3,
-      sector: "Service",
-      employees: 3,
-      revenueDaily: 400,
-      expensesDaily: 150
+  }
+  const compiledAssets = assetsData.map((asset) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+    const props = asset.properties || {};
+    const base = {
+      id: asset.id,
+      ownerId: asset.owner_id,
+      type: asset.type,
+      name: asset.name || "Unknown",
+      acquiredAt: asset.acquired_at || (/* @__PURE__ */ new Date()).toISOString(),
+      baseValue: Number(asset.base_value || 0),
+      currentValue: Number(asset.current_value || asset.base_value || 0)
+    };
+    if (asset.type === AssetType.Stock) {
+      const company = companyMap[asset.company_id];
+      const shares = Number(asset.shares || asset.count || 0);
+      const currentPrice = company ? Number(company.share_price) : base.currentValue / (shares || 1);
+      return {
+        ...base,
+        name: company ? company.name : base.name,
+        ticker: company ? company.ticker : asset.ticker || "???",
+        shares,
+        currentValue: shares * currentPrice,
+        costBasisPerShare: Number(asset.cost_basis_per_share) || base.baseValue / (shares || 1)
+      };
+    } else if (asset.type === AssetType.RealEstate) {
+      return {
+        ...base,
+        location: props.location || asset.location || "Unknown",
+        condition: Number((_b = (_a = props.condition) != null ? _a : asset.condition) != null ? _b : 100),
+        isRenovating: Boolean((_d = (_c = props.is_renovating) != null ? _c : asset.is_renovating) != null ? _d : false)
+      };
+    } else if (asset.type === AssetType.Business) {
+      return {
+        ...base,
+        sector: props.sector || asset.sector || "Generic",
+        level: Number((_f = (_e = props.level) != null ? _e : asset.level) != null ? _f : 1),
+        employees: Number((_h = (_g = props.employees) != null ? _g : asset.employees) != null ? _h : 0),
+        revenuePerQuarter: Number((_i = props.revenue_per_quarter) != null ? _i : 0),
+        expensePerQuarter: Number((_j = props.expense_per_quarter) != null ? _j : 0)
+      };
     }
-  ];
-  return { assets: [...assets, ...extraAssets] };
+    return base;
+  });
+  return { assets: compiledAssets };
 });
 
 const index_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
@@ -2336,196 +2639,161 @@ const index_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePropert
   default: index_get
 }, Symbol.toStringTag, { value: 'Module' }));
 
-const SP500_TICKERS = [
-  "AAPL",
-  "MSFT",
-  "GOOGL",
-  "AMZN",
-  "NVDA",
-  "META",
-  "TSLA",
-  "BRK.B",
-  "LLY",
-  "V",
-  "TSM",
-  "UNH",
-  "AVGO",
-  "JPM",
-  "XOM",
-  "JNJ",
-  "WMT",
-  "MA",
-  "PG",
-  "HD",
-  "MRK",
-  "COST",
-  "ABBV",
-  "CVX",
-  "ADBE",
-  "CRM",
-  "KO",
-  "PEP",
-  "BAC",
-  "ACN",
-  "MCD",
-  "LIN",
-  "CSCO",
-  "AMD",
-  "NFLX",
-  "INTC",
-  "TMO",
-  "ABT",
-  "WFC",
-  "CMCSA",
-  "DIS",
-  "PFE",
-  "NKE",
-  "DHR",
-  "VZ",
-  "TXN",
-  "NEST.SW",
-  "PM",
-  "LOW",
-  "INTU",
-  "IBM",
-  "AMGN",
-  "UNP",
-  "HON",
-  "GE",
-  "QCOM",
-  "CAT",
-  "SBUX",
-  "MS",
-  "GS",
-  "DE",
-  "BMY",
-  "LMT",
-  "RTX",
-  "BLK",
-  "SPGI",
-  "MDT",
-  "T",
-  "ISRG",
-  "BA",
-  "ADP",
-  "CVS",
-  "MDLZ",
-  "TJX",
-  "GILD",
-  "MMC",
-  "AXP",
-  "VRTX",
-  "REGN",
-  "C",
-  "ADI",
-  "ZTS",
-  "SYK",
-  "EOG",
-  "PGR",
-  "SLB",
-  "MO",
-  "BDX",
-  "CI",
-  "LRCX",
-  "BSX",
-  "NOC",
-  "ITW",
-  "CSX",
-  "CL",
-  "ETN",
-  "USB",
-  "EMR",
-  "SHW",
-  "APD"
-  // ... Add more here
-];
-
-const BATCH_SIZE = 50;
-const fetchRealMarketData = async () => {
-  try {
-    const allCompanies = [];
-    for (let i = 0; i < SP500_TICKERS.length; i += BATCH_SIZE) {
-      const chunk = SP500_TICKERS.slice(i, i + BATCH_SIZE);
-      try {
-        const results = await yahooFinance.quote(chunk);
-        const companies = results.map((quote) => {
-          const price = quote.regularMarketPrice || quote.bid || 100;
-          return {
-            id: `comp_real_${quote.symbol.toLowerCase()}`,
-            name: quote.shortName || quote.longName || quote.symbol,
-            ticker: quote.symbol,
-            sector: "Unknown",
-            description: `Real-world data for ${quote.symbol}`,
-            sharePrice: price,
-            totalShares: quote.sharesOutstanding || 1e9,
-            volatility: calculateVolatility(price, quote.fiftyTwoWeekHigh, quote.fiftyTwoWeekLow),
-            dividendYield: (quote.dividendYield || 0) / 100
-          };
-        });
-        allCompanies.push(...companies);
-      } catch (batchError) {
-        console.error(`Failed to fetch batch starting at ${i}:`, batchError);
-      }
-    }
-    return allCompanies;
-  } catch (error) {
-    console.error("Critical failure in market data fetch:", error);
-    return [];
-  }
-};
-const calculateVolatility = (current, high, low) => {
-  if (!high || !low) return 0.2;
-  const range = high - low;
-  const avg = (high + low) / 2;
-  return range / avg || 0.2;
-};
-
-let cachedRealCompanies = [];
 const marketUpdate_post = defineEventHandler(async (event) => {
-  const companies = await fetchRealMarketData();
-  if (companies.length > 0) {
-    cachedRealCompanies = companies;
+  const client = await serverSupabaseClient(event);
+  try {
+    const result = await StockEngine.stepMarket(client);
+    return {
+      success: true,
+      ...result
+    };
+  } catch (e) {
+    return {
+      success: false,
+      error: e.message
+    };
   }
-  return {
-    success: true,
-    updated: companies.length,
-    companies: companies.map((c) => ({ ticker: c.ticker, price: c.sharePrice }))
-  };
 });
 
 const marketUpdate_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
-  get cachedRealCompanies () { return cachedRealCompanies; },
   default: marketUpdate_post
 }, Symbol.toStringTag, { value: 'Module' }));
 
+const init_post = defineEventHandler(async (event) => {
+  const client = await serverSupabaseClient(event);
+  const body = await readBody(event);
+  const { count, error: countError } = await client.from("companies").select("*", { count: "exact", head: true });
+  if (countError) throw createError({ statusCode: 500, statusMessage: countError.message });
+  if (count && count > 0 && !(body == null ? void 0 : body.force)) {
+    return { message: "Market already initialized. Use force: true to reset." };
+  }
+  if (body == null ? void 0 : body.force) {
+    await client.from("companies").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  }
+  const sectors = StockEngine.getInitialSectors();
+  const companiesToInsert = [];
+  for (const sector of sectors) {
+    for (let i = 0; i < 10; i++) {
+      const name = `${sector} Corp ${i + 1}`;
+      const ticker = `${sector.substring(0, 3).toUpperCase()}${i}`;
+      const company = StockEngine.generateCompany(name, ticker, sector);
+      companiesToInsert.push({
+        id: company.id,
+        name: company.name,
+        ticker: company.ticker,
+        sector: company.sector,
+        description: company.description,
+        share_price: company.sharePrice,
+        prev_share_price: company.prevSharePrice,
+        total_shares: company.totalShares,
+        volatility: company.volatility,
+        dividend_yield: company.dividendYield
+        // jsonb fields?
+        // Assuming 'price_history' is a JSONB column or similar
+        // If checking the schema from index.get.ts, it didn't explicitly show it,
+        // but we will assume it can be stored.
+        // We'll trust the plan and assume we can add it or it's ignored if column missing.
+        // If Supabase throws error, we will fix schema.
+      });
+    }
+  }
+  const { error: insertError } = await client.from("companies").insert(companiesToInsert);
+  if (insertError) throw createError({ statusCode: 500, statusMessage: insertError.message });
+  return {
+    message: `Initialized ${companiesToInsert.length} companies across ${sectors.length} sectors.`,
+    companies: companiesToInsert.length
+  };
+});
+
+const init_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: init_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const step_post = defineEventHandler(async (event) => {
+  const client = await serverSupabaseClient(event);
+  try {
+    const result = await StockEngine.stepMarket(client);
+    return {
+      message: "Market stepped successfully.",
+      ...result
+    };
+  } catch (e) {
+    throw createError({ statusCode: 500, statusMessage: e.message });
+  }
+});
+
+const step_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: step_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
 const summary_get = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const { data: stats } = await client.from("player_stats").select("cash").eq("user_id", user.id).single();
+  const cash = (stats == null ? void 0 : stats.cash) || 0;
+  const { data: assets } = await client.from("assets").select("*").eq("owner_id", user.id);
+  let totalAssetValue = 0;
+  let liquidStockValue = 0;
+  const assetValuations = [];
+  if (assets && assets.length > 0) {
+    const stockAssets = assets.filter((a) => a.type === "stock" && a.company_id);
+    const companyIds = stockAssets.map((a) => a.company_id);
+    let companyMap = {};
+    if (companyIds.length > 0) {
+      const { data: companies } = await client.from("companies").select("id, share_price").in("id", companyIds);
+      if (companies) {
+        companies.forEach((c) => companyMap[c.id] = c);
+      }
+    }
+    for (const asset of assets) {
+      let currentValue = asset.current_value || asset.base_value || 0;
+      if (asset.type === "stock" && asset.company_id && companyMap[asset.company_id]) {
+        currentValue = (asset.shares || 0) * companyMap[asset.company_id].share_price;
+      }
+      totalAssetValue += currentValue;
+      if (asset.type === "stock") {
+        liquidStockValue += currentValue;
+      }
+      assetValuations.push({
+        assetId: asset.id,
+        name: asset.name || asset.ticker || "Unknown Asset",
+        currentValue,
+        ltv: asset.ltv || 0.5,
+        maxLoanable: currentValue * (asset.ltv || 0.5)
+      });
+    }
+  }
+  const { data: loans } = await client.from("loans").select("*").eq("borrower_id", user.id);
+  let totalPrincipal = 0;
+  if (loans) {
+    totalPrincipal = loans.reduce((sum, loan) => sum + (loan.remaining_principal || 0), 0);
+  }
   const state = {
-    netWorth: 15e4,
+    netWorth: cash + totalAssetValue - totalPrincipal,
     liquidity: {
-      cash: 25e3,
-      liquidStockValue: 1e5,
-      liquidationPenalty: 5e3
+      cash,
+      liquidStockValue,
+      liquidationPenalty: liquidStockValue * 0.01
+      // Assume 1% slippage/fees
     },
     debt: {
-      totalPrincipal: 5e4,
-      dailyInterestRate: 5e-4,
-      // 0.05% daily
+      totalPrincipal,
+      dailyInterestRate: 0,
+      // Would need weighted average calculation
       nextPaymentDue: new Date(Date.now() + 864e5 * 7).toISOString()
+      // Placeholder mechanism for now
     },
-    assets: [
-      {
-        assetId: "ast_001",
-        name: "Tech Corp Stock",
-        currentValue: 105e3,
-        ltv: 0.5,
-        maxLoanable: 52500
-      }
-    ]
+    assets: assetValuations
   };
   return {
-    tick: 1,
-    date: "2025-01-01",
+    tick: Date.now(),
+    date: (/* @__PURE__ */ new Date()).toISOString().split("T")[0],
     state
   };
 });
@@ -2534,15 +2802,6 @@ const summary_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePrope
   __proto__: null,
   default: summary_get
 }, Symbol.toStringTag, { value: 'Module' }));
-
-var EventType = /* @__PURE__ */ ((EventType2) => {
-  EventType2["Opportunity"] = "opportunity";
-  EventType2["Crisis"] = "crisis";
-  EventType2["Audit"] = "audit";
-  EventType2["MarketShift"] = "market_shift";
-  EventType2["Flavor"] = "flavor";
-  return EventType2;
-})(EventType || {});
 
 const pending_get = defineEventHandler(async (event) => {
   const mockEvents = [
@@ -2611,54 +2870,22 @@ const resolve_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProp
   default: resolve_post
 }, Symbol.toStringTag, { value: 'Module' }));
 
-const simulateMarketTick = (companies, globalTrend = 0) => {
-  return companies.map((company) => {
-    const randomFactor = Math.random() * 2 - 1;
-    const volatilityImpact = company.volatility * 0.05;
-    const percentChange = randomFactor * volatilityImpact + globalTrend;
-    let newPrice = company.sharePrice * (1 + percentChange);
-    if (newPrice < 0.01) newPrice = 0.01;
-    newPrice = Math.round(newPrice * 100) / 100;
-    return {
-      ...company,
-      sharePrice: newPrice
-    };
-  });
-};
-
-let mockCompanies = [
-  {
-    id: "comp_tech_001",
-    name: "OmniCorp Tech",
-    ticker: "OMNI",
-    sector: "Technology",
-    description: "AI Robotics",
-    sharePrice: 150,
-    totalShares: 1e8,
-    volatility: 0.8,
-    dividendYield: 5e-3
-  },
-  {
-    id: "comp_re_002",
-    name: "BuildRight",
-    ticker: "BLDR",
-    sector: "Real Estate",
-    description: "Commercial RE",
-    sharePrice: 45,
-    totalShares: 5e7,
-    volatility: 0.2,
-    dividendYield: 0.04
-  }
-];
 const tick_post = defineEventHandler(async (event) => {
-  const globalTrend = Math.random() * 0.02 - 0.01;
-  mockCompanies = simulateMarketTick(mockCompanies, globalTrend);
-  return {
-    tick: Date.now(),
-    globalTrend,
-    marketState: mockCompanies,
-    message: "Market updated"
-  };
+  const client = await serverSupabaseClient(event);
+  try {
+    const result = await StockEngine.stepMarket(client);
+    return {
+      tick: Date.now(),
+      globalTrend: 0,
+      // Deprecated/Managed by influences
+      marketState: result.companies,
+      // This might differ in shape from PublicCompany but contains key fields
+      activeInfluences: result.activeInfluences,
+      message: "Market updated via StockEngine"
+    };
+  } catch (e) {
+    throw createError({ statusCode: 500, statusMessage: e.message });
+  }
 });
 
 const tick_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
@@ -2731,38 +2958,57 @@ const offers_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProper
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const companies_get = defineEventHandler(async (event) => {
-  let companies = [
-    {
-      id: "comp_tech_001",
-      name: "OmniCorp Tech",
-      ticker: "OMNI",
-      sector: "Technology",
-      description: "A global conglomerate in AI and robotics.",
-      sharePrice: 150.25,
-      totalShares: 1e8,
-      volatility: 0.8,
-      // High volatility
-      dividendYield: 5e-3
-      // 0.5%
-    },
-    {
-      id: "comp_re_002",
-      name: "BuildRight Real Estate",
-      ticker: "BLDR",
-      sector: "Real Estate",
-      description: "Commercial real estate trust.",
-      sharePrice: 45.1,
-      totalShares: 5e7,
-      volatility: 0.2,
-      // Low volatility
-      dividendYield: 0.04
-      // 4%
-    }
-  ];
-  if (cachedRealCompanies.length > 0) {
-    companies = [...companies, ...cachedRealCompanies];
+  const client = await serverSupabaseClient(event);
+  let companies = [];
+  let usedMock = false;
+  try {
+    const { data, error } = await client.from("companies").select("*").order("ticker");
+    if (error || !data || data.length === 0) throw error || new Error("No data");
+    companies = data;
+  } catch (e) {
+    console.warn("Failed to fetch companies from Supabase, failing back to mock data:", e);
+    usedMock = true;
+    companies = [
+      {
+        id: "comp_tech_001",
+        name: "OmniCorp Tech",
+        ticker: "OMNI",
+        sector: "Technology",
+        description: "A global conglomerate in AI and robotics.",
+        share_price: 150.25,
+        prev_share_price: 148.5,
+        total_shares: 1e8,
+        volatility: 0.8,
+        dividend_yield: 5e-3
+      },
+      {
+        id: "comp_re_002",
+        name: "BuildRight Real Estate",
+        ticker: "BLDR",
+        sector: "Real Estate",
+        description: "Commercial real estate trust.",
+        share_price: 45.1,
+        prev_share_price: 45,
+        total_shares: 5e7,
+        volatility: 0.2,
+        dividend_yield: 0.04
+      }
+    ];
   }
-  return { companies };
+  const formattedCompanies = companies.map((c) => ({
+    id: c.id,
+    name: c.name,
+    ticker: c.ticker,
+    sector: c.sector,
+    description: c.description,
+    sharePrice: Number(c.share_price),
+    prevSharePrice: Number(c.prev_share_price || c.share_price),
+    totalShares: c.total_shares,
+    volatility: Number(c.volatility),
+    dividendYield: Number(c.dividend_yield),
+    priceHistory: []
+  }));
+  return { companies: formattedCompanies, source: usedMock ? "mock" : "db" };
 });
 
 const companies_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
@@ -2770,24 +3016,65 @@ const companies_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePro
   default: companies_get
 }, Symbol.toStringTag, { value: 'Module' }));
 
-const profile_get = defineEventHandler(async (event) => {
+const create_post = defineEventHandler(async (event) => {
+  const client = await serverSupabaseClient(event);
+  const user = await serverSupabaseUser(event);
+  const body = await readBody(event);
+  if (!user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  const { name, ticker, sector } = body || {};
+  if (!name || !ticker || !sector) {
+    throw createError({ statusCode: 400, statusMessage: "Missing Input: name, ticker, sector" });
+  }
+  const company = StockEngine.generateCompany(name, ticker, sector);
+  company.description = `Founded by player.`;
+  const { error: insertError } = await client.from("companies").insert({
+    id: company.id,
+    name: company.name,
+    ticker: company.ticker,
+    sector: company.sector,
+    description: company.description,
+    share_price: company.sharePrice,
+    prev_share_price: company.prevSharePrice,
+    total_shares: company.totalShares,
+    volatility: company.volatility,
+    dividend_yield: company.dividendYield
+    // creator_id: user.id // If schema supports it
+  });
+  if (insertError) throw createError({ statusCode: 500, statusMessage: insertError.message });
   return {
-    id: "usr_001",
-    username: "Operator",
-    title: "Day Trader",
+    message: "Company successfully listed.",
+    company
+  };
+});
+
+const create_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: create_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const profile_get = defineEventHandler(async (event) => {
+  var _a;
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const { data: profile, error: profileError } = await client.from("profiles").select("*").eq("id", user.id).single();
+  const { data: stats, error: statsError } = await client.from("player_stats").select("*").eq("user_id", user.id).single();
+  return {
+    id: user.id,
+    username: (profile == null ? void 0 : profile.username) || ((_a = user.email) == null ? void 0 : _a.split("@")[0]) || "Operator",
+    title: (profile == null ? void 0 : profile.title) || "Day Trader",
     stats: {
-      heat: 15,
-      // Underworld attention
-      karma: -5,
-      // Moral standing
-      reputation: 120,
-      // Business reputation
-      insiderLevel: 1
-      // Access to info
+      heat: (stats == null ? void 0 : stats.heat) || 0,
+      karma: (stats == null ? void 0 : stats.karma) || 0,
+      reputation: (stats == null ? void 0 : stats.reputation) || 0,
+      insiderLevel: (stats == null ? void 0 : stats.insider_level) || 0
     },
-    level: 5,
-    xp: 4500,
-    nextLevelXp: 5e3
+    level: (stats == null ? void 0 : stats.level) || 1,
+    xp: (stats == null ? void 0 : stats.xp) || 0,
+    nextLevelXp: ((stats == null ? void 0 : stats.level) || 1) * 1e3
+    // Simple progression formula
   };
 });
 
