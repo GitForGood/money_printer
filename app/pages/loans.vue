@@ -77,7 +77,7 @@
 
                 <div class="actions mt-auto pt-4">
                     <EmphasizedButton class="w-full justify-center mb-2" @click="handlePayment">MAKE PAYMENT</EmphasizedButton>
-                    <BracketedButton class="w-full justify-center">REFINANCE</BracketedButton>
+                    <ActionButton class="w-full justify-center">REFINANCE</ActionButton>
                 </div>
             </div>
         </div>
@@ -85,6 +85,24 @@
             <p>> SELECT A LOAN TO VIEW DETAILS</p>
         </div>
     </template>
+
+    <!-- Dialogs -->
+    <TerminalPrompt
+      v-model:isOpen="isPromptOpen"
+      title="LOAN REPAYMENT"
+      :message="promptMessage"
+      input-label="PAYMENT AMOUNT"
+      input-type="number"
+      :initial-value="paymentAmount"
+      @confirm="executePayment"
+    />
+
+    <TerminalDialog
+      v-model:isOpen="isAlertOpen"
+      title="SYSTEM NOTIFICATION"
+      :message="alertMessage"
+      :show-cancel="false"
+    />
   </NuxtLayout>
 </template>
 
@@ -97,6 +115,11 @@ const { loans, fetchLoans, payLoan, loading } = usePortfolio()
 const { fetchSummary } = useEconomy()
 
 const selectedLoan = ref<any>(null)
+const isPromptOpen = ref(false)
+const isAlertOpen = ref(false)
+const promptMessage = ref('')
+const alertMessage = ref('')
+const paymentAmount = ref(0)
 
 onMounted(async () => {
     await fetchLoans()
@@ -109,15 +132,19 @@ function selectLoan(loan: any) {
     selectedLoan.value = loan
 }
 
-async function handlePayment() {
+function handlePayment() {
     if (!selectedLoan.value) return
     
-    const amountStr = prompt(`Enter payment amount (Remaining: $${selectedLoan.value.remainingPrincipal.toLocaleString()}):`, selectedLoan.value.remainingPrincipal.toString())
-    if (!amountStr) return
-    
+    promptMessage.value = `Enter payment amount (Remaining: $${selectedLoan.value.remainingPrincipal.toLocaleString()}):`
+    paymentAmount.value = selectedLoan.value.remainingPrincipal
+    isPromptOpen.value = true
+}
+
+async function executePayment(amountStr: string) {
     const amount = parseFloat(amountStr)
     if (isNaN(amount) || amount <= 0) {
-        alert('Invalid amount')
+        alertMessage.value = 'INVALID AMOUNT SPECIFIED'
+        isAlertOpen.value = true
         return
     }
 
@@ -127,7 +154,8 @@ async function handlePayment() {
         // Refresh local selected state
         selectedLoan.value = loans.value.find((l: any) => l.id === selectedLoan.value.id) || loans.value[0] || null
     } catch (e) {
-        alert('Payment failed. See console.')
+        alertMessage.value = 'PAYMENT PROTOCOL FAILURE. TRANSACTION ABORTED.'
+        isAlertOpen.value = true
     }
 }
 </script>

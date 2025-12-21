@@ -87,8 +87,8 @@
 
                 <div class="actions mt-auto pt-4">
                     <EmphasizedButton class="w-full justify-center mb-2" @click="handleSell">SELL ASSET</EmphasizedButton>
-                    <BracketedButton class="w-full justify-center" v-if="selectedAsset.type === 'real_estate'">RENOVATE</BracketedButton>
-                    <BracketedButton class="w-full justify-center" v-if="selectedAsset.type === 'real_estate'">REFINANCE</BracketedButton>
+                    <ActionButton class="w-full justify-center" v-if="selectedAsset.type === 'real_estate'">RENOVATE</ActionButton>
+                    <ActionButton class="w-full justify-center" v-if="selectedAsset.type === 'real_estate'">REFINANCE</ActionButton>
                 </div>
             </div>
         </div>
@@ -96,6 +96,21 @@
             <p>> SELECT AN ASSET TO INSPECT</p>
         </div>
     </template>
+
+    <!-- Dialogs -->
+    <TerminalDialog
+      v-model:isOpen="isConfirmOpen"
+      title="ASSET LIQUIDATION"
+      :message="confirmMessage"
+      @confirm="executeSell"
+    />
+
+    <TerminalDialog
+      v-model:isOpen="isAlertOpen"
+      title="SYSTEM NOTIFICATION"
+      :message="alertMessage"
+      :show-cancel="false"
+    />
   </NuxtLayout>
 </template>
 
@@ -108,6 +123,10 @@ const { assets, fetchAssets, sellAsset, loading } = usePortfolio()
 const { fetchSummary } = useEconomy()
 
 const selectedAsset = ref<any>(null)
+const isConfirmOpen = ref(false)
+const isAlertOpen = ref(false)
+const confirmMessage = ref('')
+const alertMessage = ref('')
 
 onMounted(async () => {
     await fetchAssets()
@@ -120,18 +139,22 @@ function selectAsset(asset: any) {
     selectedAsset.value = asset
 }
 
-async function handleSell() {
+function handleSell() {
     if (!selectedAsset.value) return
     
-    if (confirm(`Sell ${selectedAsset.value.name || selectedAsset.value.ticker} for its current value?`)) {
-        try {
-            const id = selectedAsset.value.id
-            await sellAsset(id)
-            await fetchSummary() // Update net worth/cash in sidebar
-            selectedAsset.value = assets.value.find((a: any) => a.id !== id) || null
-        } catch (e) {
-            alert('Sale failed. See console.')
-        }
+    confirmMessage.value = `Sell ${selectedAsset.value.name || selectedAsset.value.ticker} for its current value?`
+    isConfirmOpen.value = true
+}
+
+async function executeSell() {
+    try {
+        const id = selectedAsset.value.id
+        await sellAsset(id)
+        await fetchSummary() // Update net worth/cash in sidebar
+        selectedAsset.value = assets.value.find((a: any) => a.id !== id) || null
+    } catch (e) {
+        alertMessage.value = 'ASSET LIQUIDATION FAILURE. SYSTEM ERROR INDICATED.'
+        isAlertOpen.value = true
     }
 }
 

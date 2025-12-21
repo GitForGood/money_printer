@@ -53,6 +53,26 @@ export interface Database {
                     created_at?: string
                 }
             }
+            profiles: {
+                Row: {
+                    id: string
+                    username: string | null
+                    title: string | null
+                    created_at: string
+                }
+                Insert: {
+                    id: string
+                    username?: string | null
+                    title?: string | null
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    username?: string | null
+                    title?: string | null
+                    created_at?: string
+                }
+            }
             player_stats: {
                 Row: {
                     user_id: string
@@ -60,6 +80,10 @@ export interface Database {
                     heat: number
                     ap: number
                     reputation: number
+                    karma: number
+                    insider_level: number
+                    level: number
+                    xp: number
                     created_at: string
                 }
                 Insert: {
@@ -68,6 +92,10 @@ export interface Database {
                     heat?: number
                     ap?: number
                     reputation?: number
+                    karma?: number
+                    insider_level?: number
+                    level?: number
+                    xp?: number
                     created_at?: string
                 }
                 Update: {
@@ -76,6 +104,10 @@ export interface Database {
                     heat?: number
                     ap?: number
                     reputation?: number
+                    karma?: number
+                    insider_level?: number
+                    level?: number
+                    xp?: number
                     created_at?: string
                 }
             }

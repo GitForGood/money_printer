@@ -1,28 +1,32 @@
 import { defineEventHandler, createError } from 'h3'
 import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server'
 import type { PlayerProfile } from '../../../types/player'
+import type { Database } from '../../../types/database.types'
+
+type ProfileRow = Database['public']['Tables']['profiles']['Row']
+type StatsRow = Database['public']['Tables']['player_stats']['Row']
 
 export default defineEventHandler(async (event): Promise<PlayerProfile> => {
     const user = await serverSupabaseUser(event)
-    const client = await serverSupabaseClient(event)
+    const client = await serverSupabaseClient<Database>(event)
 
     if (!user) {
         throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
     }
 
     // Fetch Profile (Assume 'profiles' table linked to auth.users)
-    const { data: profile, error: profileError } = await (client as any)
+    const { data: profile } = await client
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single()
+        .single() as any as { data: ProfileRow | null }
 
     // Fetch Stats (Assume 'player_stats' table)
-    const { data: stats, error: statsError } = await (client as any)
+    const { data: stats } = await client
         .from('player_stats')
         .select('*')
         .eq('user_id', user.id)
-        .single()
+        .single() as any as { data: StatsRow | null }
 
     // Handle missing data gracefully by returning defaults
     // In a real production app, we might want to ensure these records exist on signup.

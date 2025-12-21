@@ -37,12 +37,12 @@
         <div class="alt-methods">
             <p class="separator">- OR CONNECT VIA -</p>
             <div class="provider-buttons">
-                <BracketedButton @click="handleOAuth('github')" class="w-full justify-center opacity-50" title="Module Offline">
+                <ActionButton @click="handleOAuth('github')" class="w-full justify-center opacity-50" title="Module Offline">
                     GITHUB
-                </BracketedButton>
-                <BracketedButton @click="handleOAuth('google')" class="w-full justify-center opacity-50" title="Module Offline">
+                </ActionButton>
+                <ActionButton @click="handleOAuth('google')" class="w-full justify-center opacity-50" title="Module Offline">
                     GOOGLE
-                </BracketedButton>
+                </ActionButton>
             </div>
         </div>
         -->
@@ -58,6 +58,12 @@
         </div>
       </div>
     </div>
+    <TerminalDialog
+      v-model:isOpen="isAlertOpen"
+      title="SYSTEM NOTIFICATION"
+      :message="alertMessage"
+      :show-cancel="false"
+    />
   </NuxtLayout>
 </template>
 
@@ -75,6 +81,8 @@ const errors = reactive({
     email: '',
     password: ''
 })
+const isAlertOpen = ref(false)
+const alertMessage = ref('')
 
 // Watch user to redirect if they become logged in
 watchEffect(() => {
@@ -116,7 +124,8 @@ async function handleEmailLogin() {
 
 async function handleOAuth(provider: string) {
   // OAuth temporarily disabled - User focusing on Email Auth
-  alert(`Provider module '${provider.toUpperCase()}' is currently offline. using EMAIL protocol only.`)
+  alertMessage.value = `Provider module '${provider.toUpperCase()}' is currently offline. using EMAIL protocol only.`
+  isAlertOpen.value = true
   return
 }
 </script>

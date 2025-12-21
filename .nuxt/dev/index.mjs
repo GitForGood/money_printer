@@ -1499,16 +1499,16 @@ _pc0ddydk2FNoDHd6KT5dLjjgRPKdHT_Slno_AZSifo
 const assets = {
   "/index.mjs": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"1edae-+umeaibk5olR10wem8oGVs9OjoQ\"",
-    "mtime": "2025-12-21T12:22:53.527Z",
-    "size": 126382,
+    "etag": "\"1ec7d-QoQImbz8WHPmq0y5avIjig30xv0\"",
+    "mtime": "2025-12-21T13:50:26.897Z",
+    "size": 126077,
     "path": "index.mjs"
   },
   "/index.mjs.map": {
     "type": "application/json",
-    "etag": "\"74192-ctpzR4kflGnyU37Dq+rCx7lBl1M\"",
-    "mtime": "2025-12-21T12:22:53.527Z",
-    "size": 475538,
+    "etag": "\"73b4b-/DlWHZzypxts90i//LyIi+tMbfI\"",
+    "mtime": "2025-12-21T13:50:26.897Z",
+    "size": 473931,
     "path": "index.mjs.map"
   }
 };
@@ -2529,7 +2529,7 @@ const perform_post = defineEventHandler(async (event) => {
   const updates = {};
   const changes = [];
   for (const req of requirements) {
-    const currentVal = (_a = stats[req.resource]) != null ? _a : 0;
+    const currentVal = req.resource in updates ? updates[req.resource] : (_a = stats[req.resource]) != null ? _a : 0;
     if (req.min !== void 0 && currentVal < req.min) {
       throw createError({ statusCode: 400, statusMessage: `Insufficient ${req.resource} (Required: ${req.min})` });
     }
@@ -2537,20 +2537,13 @@ const perform_post = defineEventHandler(async (event) => {
       if (currentVal < req.cost) {
         throw createError({ statusCode: 400, statusMessage: `Not enough ${req.resource} to pay cost` });
       }
-      const newVal = currentVal - req.cost;
-      updates[req.resource] = newVal;
-      if (req.resource in updates) {
-        updates[req.resource] -= req.cost;
-        if (updates[req.resource] < 0) throw createError({ statusCode: 400, statusMessage: "Cost exceeds balance" });
-      } else {
-        updates[req.resource] = currentVal - req.cost;
-      }
+      updates[req.resource] = currentVal - req.cost;
       changes.push({ path: `player.${req.resource}`, value: -req.cost, operation: "add" });
     }
   }
   let success = true;
   let message = "Action performed successfully";
-  if (actionDef.base_success_rate !== void 0) {
+  if (actionDef.base_success_rate !== null && actionDef.base_success_rate !== void 0) {
     if (Math.random() > actionDef.base_success_rate) {
       success = false;
       message = "Action failed";
@@ -2645,35 +2638,35 @@ const index_get = defineEventHandler(async (event) => {
     return { assets: [] };
   }
   const stockAssets = assetsData.filter((a) => a.type === AssetType.Stock && a.company_id);
-  const companyIds = stockAssets.map((a) => a.company_id);
+  const companyIds = stockAssets.map((a) => a.company_id).filter(Boolean);
   let companyMap = {};
   if (companyIds.length > 0) {
-    const { data: companies } = await client.from("companies").select("id, ticker, share_price, name").in("id", companyIds);
+    const { data: companies } = await client.from("companies").select("*").in("id", companyIds);
     if (companies) {
       companies.forEach((c) => companyMap[c.id] = c);
     }
   }
   const compiledAssets = assetsData.map((asset) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+    var _a, _b, _c, _d, _e, _f;
     const props = asset.properties || {};
     const base = {
       id: asset.id,
-      ownerId: asset.owner_id,
+      ownerId: asset.owner_id || "",
       type: asset.type,
       name: asset.name || "Unknown",
       acquiredAt: asset.acquired_at || (/* @__PURE__ */ new Date()).toISOString(),
       baseValue: Number(asset.base_value || 0),
       currentValue: Number(asset.current_value || asset.base_value || 0)
     };
-    if (asset.type === AssetType.Stock) {
+    if (asset.type === AssetType.Stock && asset.company_id) {
       const company = companyMap[asset.company_id];
       const shares = Number(asset.shares || asset.count || 0);
-      const currentPrice = company ? Number(company.share_price) : base.currentValue / (shares || 1);
+      const currentPrice = company ? Number(company.share_price || 0) : base.currentValue / (shares || 1);
       return {
         ...base,
         type: AssetType.Stock,
         name: company ? company.name : base.name,
-        ticker: company ? company.ticker : asset.ticker || "???",
+        ticker: company ? company.ticker : asset.id.split("_")[0] || "???",
         shares,
         currentValue: shares * currentPrice,
         costBasisPerShare: Number(asset.cost_basis_per_share) || base.baseValue / (shares || 1)
@@ -2683,18 +2676,18 @@ const index_get = defineEventHandler(async (event) => {
         ...base,
         type: AssetType.RealEstate,
         location: props.location || asset.location || "Unknown",
-        condition: Number((_b = (_a = props.condition) != null ? _a : asset.condition) != null ? _b : 100),
-        isRenovating: Boolean((_d = (_c = props.is_renovating) != null ? _c : asset.is_renovating) != null ? _d : false)
+        condition: Number((_a = props.condition) != null ? _a : 100),
+        isRenovating: Boolean((_b = props.is_renovating) != null ? _b : false)
       };
     } else if (asset.type === AssetType.Business) {
       return {
         ...base,
         type: AssetType.Business,
-        sector: props.sector || asset.sector || "Generic",
-        level: Number((_f = (_e = props.level) != null ? _e : asset.level) != null ? _f : 1),
-        employees: Number((_h = (_g = props.employees) != null ? _g : asset.employees) != null ? _h : 0),
-        revenuePerQuarter: Number((_i = props.revenue_per_quarter) != null ? _i : 0),
-        expensePerQuarter: Number((_j = props.expense_per_quarter) != null ? _j : 0)
+        sector: props.sector || "Generic",
+        level: Number((_c = props.level) != null ? _c : 1),
+        employees: Number((_d = props.employees) != null ? _d : 0),
+        revenuePerQuarter: Number((_e = props.revenue_per_quarter) != null ? _e : 0),
+        expensePerQuarter: Number((_f = props.expense_per_quarter) != null ? _f : 0)
       };
     }
     return base;
@@ -2807,13 +2800,9 @@ const init_post = defineEventHandler(async (event) => {
         prev_share_price: company.prevSharePrice,
         total_shares: company.totalShares,
         volatility: company.volatility,
-        dividend_yield: company.dividendYield
-        // jsonb fields?
-        // Assuming 'price_history' is a JSONB column or similar
-        // If checking the schema from index.get.ts, it didn't explicitly show it,
-        // but we will assume it can be stored.
-        // We'll trust the plan and assume we can add it or it's ignored if column missing.
-        // If Supabase throws error, we will fix schema.
+        dividend_yield: company.dividendYield,
+        price_history: company.priceHistory,
+        created_at: (/* @__PURE__ */ new Date()).toISOString()
       });
     }
   }
@@ -2862,10 +2851,10 @@ const summary_get = defineEventHandler(async (event) => {
   const assetValuations = [];
   if (assets && assets.length > 0) {
     const stockAssets = assets.filter((a) => a.type === "stock" && a.company_id);
-    const companyIds = stockAssets.map((a) => a.company_id);
+    const companyIds = stockAssets.map((a) => a.company_id).filter(Boolean);
     let companyMap = {};
     if (companyIds.length > 0) {
-      const { data: companies } = await client.from("companies").select("id, share_price").in("id", companyIds);
+      const { data: companies } = await client.from("companies").select("*").in("id", companyIds);
       if (companies) {
         companies.forEach((c) => companyMap[c.id] = c);
       }
@@ -2873,7 +2862,7 @@ const summary_get = defineEventHandler(async (event) => {
     for (const asset of assets) {
       let currentValue = asset.current_value || asset.base_value || 0;
       if (asset.type === "stock" && asset.company_id && companyMap[asset.company_id]) {
-        currentValue = (asset.shares || 0) * companyMap[asset.company_id].share_price;
+        currentValue = (asset.shares || 0) * (companyMap[asset.company_id].share_price || 0);
       }
       totalAssetValue += currentValue;
       if (asset.type === "stock") {
@@ -2881,10 +2870,11 @@ const summary_get = defineEventHandler(async (event) => {
       }
       assetValuations.push({
         assetId: asset.id,
-        name: asset.name || asset.ticker || "Unknown Asset",
+        name: asset.name || "Unknown Asset",
         currentValue,
-        ltv: asset.ltv || 0.5,
-        maxLoanable: currentValue * (asset.ltv || 0.5)
+        ltv: 0.5,
+        // Default LTV
+        maxLoanable: currentValue * 0.5
       });
     }
   }
@@ -3130,7 +3120,7 @@ const take_post = defineEventHandler(async (event) => {
     if (assetError || !asset) {
       throw createError({ statusCode: 400, statusMessage: "Invalid or unauthorized collateral asset" });
     }
-    const assetValue = Number(asset.current_value || asset.base_value);
+    const assetValue = Number(asset.current_value || asset.base_value || 0);
     if (principal > assetValue * 0.8) {
       throw createError({ statusCode: 400, statusMessage: "Principal exceeds max LTV for collateral" });
     }
@@ -3142,9 +3132,9 @@ const take_post = defineEventHandler(async (event) => {
   const { data: loan, error: loanError } = await client.from("loans").insert({
     borrower_id: user.id,
     lender_name: lenderName,
-    principal,
-    remaining_principal: principal,
-    interest_rate_daily: interestRateDaily,
+    principal: Number(principal),
+    remaining_principal: Number(principal),
+    interest_rate_daily: Number(interestRateDaily),
     term_days: termDays || -1,
     collateral_asset_id: collateralAssetId
   }).select().single();
@@ -3182,7 +3172,9 @@ const companies_get = defineEventHandler(async (event) => {
         prev_share_price: 148.5,
         total_shares: 1e8,
         volatility: 0.8,
-        dividend_yield: 5e-3
+        dividend_yield: 5e-3,
+        price_history: null,
+        created_at: (/* @__PURE__ */ new Date()).toISOString()
       },
       {
         id: "comp_re_002",
@@ -3194,7 +3186,9 @@ const companies_get = defineEventHandler(async (event) => {
         prev_share_price: 45,
         total_shares: 5e7,
         volatility: 0.2,
-        dividend_yield: 0.04
+        dividend_yield: 0.04,
+        price_history: null,
+        created_at: (/* @__PURE__ */ new Date()).toISOString()
       }
     ];
   }
@@ -3202,13 +3196,13 @@ const companies_get = defineEventHandler(async (event) => {
     id: c.id,
     name: c.name,
     ticker: c.ticker,
-    sector: c.sector,
-    description: c.description,
-    sharePrice: Number(c.share_price),
-    prevSharePrice: Number(c.prev_share_price || c.share_price),
-    totalShares: c.total_shares,
-    volatility: Number(c.volatility),
-    dividendYield: Number(c.dividend_yield),
+    sector: c.sector || "Unknown",
+    description: c.description || "",
+    sharePrice: Number(c.share_price || 0),
+    prevSharePrice: Number(c.prev_share_price || c.share_price || 0),
+    totalShares: c.total_shares || 0,
+    volatility: Number(c.volatility || 0),
+    dividendYield: Number(c.dividend_yield || 0),
     priceHistory: []
   }));
   return { companies: formattedCompanies, source: usedMock ? "mock" : "db" };
@@ -3262,8 +3256,8 @@ const profile_get = defineEventHandler(async (event) => {
   if (!user) {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
-  const { data: profile, error: profileError } = await client.from("profiles").select("*").eq("id", user.id).single();
-  const { data: stats, error: statsError } = await client.from("player_stats").select("*").eq("user_id", user.id).single();
+  const { data: profile } = await client.from("profiles").select("*").eq("id", user.id).single();
+  const { data: stats } = await client.from("player_stats").select("*").eq("user_id", user.id).single();
   return {
     id: user.id,
     username: (profile == null ? void 0 : profile.username) || ((_a = user.email) == null ? void 0 : _a.split("@")[0]) || "Operator",
