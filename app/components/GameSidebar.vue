@@ -4,15 +4,15 @@
     <div class="player-stats">
       <div class="stat-row">
         <span class="stat-label">NET:</span>
-        <span class="stat-value">$1,042,000</span>
+        <span class="stat-value">${{ netWorth.toLocaleString() }}</span>
       </div>
       <div class="stat-row">
         <span class="stat-label">CASH:</span>
-        <span class="stat-value">$42,000</span>
+        <span class="stat-value">${{ liquidity.toLocaleString() }}</span>
       </div>
       <div class="stat-row">
         <span class="stat-label">DEBT:</span>
-        <span class="stat-value text-red-500">$500,000</span>
+        <span class="stat-value text-red-500">${{ (financialState?.debt.totalPrincipal || 0).toLocaleString() }}</span>
       </div>
     </div>
 
@@ -32,15 +32,21 @@
       <div class="nav-spacer"></div>
       
       <AsciiDivider />
-      <BracketedButton @click="requestLogout" class="nav-item">LOGOUT</BracketedButton>
+      <ActionButton @click="requestLogout" class="nav-item">LOGOUT</ActionButton>
     </nav>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
+import { inject, onMounted } from 'vue'
+import { useEconomy } from '../composables/useEconomy'
 
+const { financialState, fetchSummary, liquidity, netWorth } = useEconomy()
 const requestLogout = inject('requestLogout', () => {})
+
+onMounted(() => {
+  fetchSummary()
+})
 </script>
 
 <style scoped>

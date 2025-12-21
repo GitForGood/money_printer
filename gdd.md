@@ -27,6 +27,7 @@ Business Ventures: Player-founded companies. High risk/reward. Requires active c
 LTV (Loan-To-Value): Safe assets (Real Estate) offer high LTV (e.g., 70%). Volatile assets (Stocks) offer low LTV (e.g., 30%).
 Margin Calls: If asset value drops, the bank demands cash. Failure to pay = liquidation of assets at a discount.
 Refinancing: As assets appreciate, refinance the loan to pull out more cash tax-free.
+
 ### 3.4. Tax System (The Antagonist)
 Income Tax: High rate on realized gains and dividends.
 Capital Gains: Tax on selling assets for profit.
@@ -34,13 +35,16 @@ Strategies to Avoid Tax:
 Buy, Borrow, Die: Don't sell assets. Borrow against them. Loans aren't income.
 Write-offs: Depreciation of real estate. Business expenses.
 Offshore: High setup cost, lowers tax rate, risk of audit/seizure.
+
 ### 3.5. Action Economy
 Action Points (AP): Player has limited "Attention" or "Bandwidth".
 Expansion: Hiring a "CFO" or "Asset Manager" costs salary but essentially buys more automation or AP, allowing concurrent long-term plans.
+
 ### 3.6. Event System & Hidden Metrics
 Heat & Karma (Hidden Stats): Certain actions (skirting taxes, layoffs, aggressive takeovers) increase "Heat" or "Karma". The player cannot see the exact values, but messages from "Associates" will hint at it.
 Triggered Events: High "Heat" might trigger audits, protests, or regulatory crackdowns. Low "Karma" might lead to internal sabotage or PR disasters.
 Stacking Effects: Small events stack. A series of minor labor violations might eventually trigger a massive general strike that halts all production for a quarter.
+
 ### 3.7. Brutal Efficiency (The Dark Path)
 Players can engage in high-risk, high-reward black market or unethical tactics:
 
@@ -66,6 +70,21 @@ Players can trigger events by:
 - Engaging in unethical practices
 
 These events are triggered by the game, not by the player. These events should present the player with a course of action with some hints of the general direction of the outcomes but should keep away from specifics and should be a bit cryptic. The effects can be something like "You have been targeted by a competitor" or "You have been audited by the IRS". The player should then have to make a decision based on their current state and the hints given. An event should be blocking - requiring the player to make a decision before the game can continue. If a player exits the game before resolving it they will be prompted to resolve it when they return. 
+
+### 3.10. Costs
+Players incurr quarterly costs for:
+- Rent
+- Salaries
+- Utilities
+
+These are all visible as projections and are based on the current state of the player. Most of the upgrades will come with increasing costs and the player will have to make a decision on whether to upgrade or not based on their current state and the hints given.
+Costs can be divided into fixed and variable costs. Fixed costs are costs that do not change with the size of the player's business. Variable costs are costs that change with the size of the player's business. They can be further divided into business costs and personal costs, personal costs have to be paid with cash so either money from a loan or taxed income from other sources (dividends, capital gains, etc.)
+### 3.11. Revenue
+Revenue is visible as projections and are based on the current state of the player. Revenue can be further divided into business revenue and personal revenue, business revenue is the income from the player's business and personal revenue is the income from other sources (dividends, capital gains, etc.)
+### 3.12. Taxes
+Taxes are paid yearly, they are 30% on asset profits and 50% on business profit that is taken out as salary. Any leftover profit at the end of the year is automatically taken out as salary and is taxed accordingly. Registered losses are deductible from both of these equations. Asset portfolios come in 2 forms, one with the evaluation of their portfolio is taxed 2% yearly and no tax has to be paid on profits, while the other incurrs a tax of 30% on profits when an asset is sold and personal taxes can register losses to offset personal income taxes.
+### 3.13. Interest
+Interest is paid monthly on loans and is based on the current interest rate. The interest rate is based on the current state of the player and the current market conditions. The player should be able to set how much of their quarterly payments on their loans to be paying off the loan but should always cover interest payments at least.
 
 ## 4. User Interface & Experience (UI/UX)
 Philosophy: "Bloomberg Terminal meets Text Adventure".

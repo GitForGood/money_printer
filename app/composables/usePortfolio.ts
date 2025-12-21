@@ -73,9 +73,35 @@ export const usePortfolio = () => {
         }
     }
 
+    const sellAsset = async (assetId: string) => {
+        try {
+            await $fetch('/api/assets/sell', {
+                method: 'POST',
+                body: { assetId }
+            })
+            await fetchAssets()
+        } catch (e: any) {
+            console.error('Failed to sell asset', e)
+            throw e
+        }
+    }
+
+    const payLoan = async (loanId: string, amount: number) => {
+        try {
+            await $fetch('/api/loans/pay', {
+                method: 'POST',
+                body: { loanId, amount }
+            })
+            await fetchLoans()
+        } catch (e: any) {
+            console.error('Failed to pay loan', e)
+            throw e
+        }
+    }
+
     // Computed
-    const totalAssetValue = computed(() => assets.value.reduce((sum, a) => sum + (a.currentValue || 0), 0))
-    const totalDebt = computed(() => loans.value.reduce((sum, l) => sum + (l.remainingPrincipal || 0), 0))
+    const totalAssetValue = computed(() => assets.value.reduce((sum, a) => sum + (Number(a.currentValue) || 0), 0))
+    const totalDebt = computed(() => loans.value.reduce((sum, l) => sum + (Number(l.remainingPrincipal) || 0), 0))
 
     return {
         assets,
@@ -86,7 +112,9 @@ export const usePortfolio = () => {
         fetchLoans,
         fetchLoanOffers,
         buyAsset,
+        sellAsset,
         takeLoan,
+        payLoan,
         totalAssetValue,
         totalDebt
     }

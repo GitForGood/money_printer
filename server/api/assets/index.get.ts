@@ -60,6 +60,7 @@ export default defineEventHandler(async (event) => {
 
             return {
                 ...base,
+                type: AssetType.Stock,
                 name: company ? company.name : base.name,
                 ticker: company ? company.ticker : (asset.ticker || '???'),
                 shares: shares,
@@ -69,6 +70,7 @@ export default defineEventHandler(async (event) => {
         } else if (asset.type === AssetType.RealEstate) {
             return {
                 ...base,
+                type: AssetType.RealEstate,
                 location: props.location || asset.location || 'Unknown',
                 condition: Number(props.condition ?? asset.condition ?? 100),
                 isRenovating: Boolean(props.is_renovating ?? asset.is_renovating ?? false)
@@ -76,6 +78,7 @@ export default defineEventHandler(async (event) => {
         } else if (asset.type === AssetType.Business) {
             return {
                 ...base,
+                type: AssetType.Business,
                 sector: props.sector || asset.sector || 'Generic',
                 level: Number(props.level ?? asset.level ?? 1),
                 employees: Number(props.employees ?? asset.employees ?? 0),

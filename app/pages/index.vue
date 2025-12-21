@@ -54,6 +54,17 @@
   </NuxtLayout>
 </template>
 
+<script lang="ts" setup>
+import { onMounted } from 'vue'
+import { useEconomy } from '../composables/useEconomy'
+
+const { financialState, netWorth, liquidity, fetchSummary, loading } = useEconomy()
+
+onMounted(() => {
+  fetchSummary()
+})
+</script>
+
 <style scoped>
 .dashboard-page {
   display: flex;

@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="actions mt-auto pt-4">
-                    <EmphasizedButton class="w-full justify-center mb-2">SELL ASSET</EmphasizedButton>
+                    <EmphasizedButton class="w-full justify-center mb-2" @click="handleSell">SELL ASSET</EmphasizedButton>
                     <BracketedButton class="w-full justify-center" v-if="selectedAsset.type === 'real_estate'">RENOVATE</BracketedButton>
                     <BracketedButton class="w-full justify-center" v-if="selectedAsset.type === 'real_estate'">REFINANCE</BracketedButton>
                 </div>
@@ -101,21 +101,39 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { usePortfolio } from '~/composables/usePortfolio'
+import { usePortfolio } from '../composables/usePortfolio'
+import { useEconomy } from '../composables/useEconomy'
 
-const { assets, fetchAssets } = usePortfolio()
+const { assets, fetchAssets, sellAsset, loading } = usePortfolio()
+const { fetchSummary } = useEconomy()
+
 const selectedAsset = ref<any>(null)
+
+onMounted(async () => {
+    await fetchAssets()
+    if (assets.value.length > 0) {
+        selectedAsset.value = assets.value[0]
+    }
+})
 
 function selectAsset(asset: any) {
     selectedAsset.value = asset
 }
 
-onMounted(async () => {
-    await fetchAssets()
-    if (assets.value.length > 0 && !selectedAsset.value) {
-        selectedAsset.value = assets.value[0]
+async function handleSell() {
+    if (!selectedAsset.value) return
+    
+    if (confirm(`Sell ${selectedAsset.value.name || selectedAsset.value.ticker} for its current value?`)) {
+        try {
+            const id = selectedAsset.value.id
+            await sellAsset(id)
+            await fetchSummary() // Update net worth/cash in sidebar
+            selectedAsset.value = assets.value.find((a: any) => a.id !== id) || null
+        } catch (e) {
+            alert('Sale failed. See console.')
+        }
     }
-})
+}
 
 function getAssetName(asset: any) {
     if (asset.type === 'stock' && asset.ticker) {
@@ -125,14 +143,18 @@ function getAssetName(asset: any) {
 }
 
 function calculateRoi(asset: any) {
-    const profit = asset.currentValue - asset.baseValue
-    return ((profit / asset.baseValue) * 100).toFixed(2)
+    const cost = Number(asset.baseValue || 0)
+    const current = Number(asset.currentValue || 0)
+    if (cost === 0) return '0.00'
+    const profit = current - cost
+    return ((profit / cost) * 100).toFixed(2)
 }
 
 function getRoiColor(asset: any) {
-    const profit = asset.currentValue - asset.baseValue
-    if (profit > 0) return 'text-green'
-    if (profit < 0) return 'text-red'
+    const cost = Number(asset.baseValue || 0)
+    const current = Number(asset.currentValue || 0)
+    if (current > cost) return 'text-green'
+    if (current < cost) return 'text-red'
     return ''
 }
 </script>

@@ -28,7 +28,7 @@
 }
 
 .left-sidebar {
-  width: 200px;
+  width: var(--sidebar-width);
   flex-shrink: 0;
   border-right: 1px solid var(--text-color-variant);
   overflow-y: auto;

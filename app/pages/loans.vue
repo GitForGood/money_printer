@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="actions mt-auto pt-4">
-                    <EmphasizedButton class="w-full justify-center mb-2">MAKE PAYMENT</EmphasizedButton>
+                    <EmphasizedButton class="w-full justify-center mb-2" @click="handlePayment">MAKE PAYMENT</EmphasizedButton>
                     <BracketedButton class="w-full justify-center">REFINANCE</BracketedButton>
                 </div>
             </div>
@@ -91,21 +91,45 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { usePortfolio } from '~/composables/usePortfolio'
+import { useEconomy } from '~/composables/useEconomy'
 
-const { loans, fetchLoans } = usePortfolio()
+const { loans, fetchLoans, payLoan, loading } = usePortfolio()
+const { fetchSummary } = useEconomy()
+
 const selectedLoan = ref<any>(null)
+
+onMounted(async () => {
+    await fetchLoans()
+    if (loans.value.length > 0) {
+        selectedLoan.value = loans.value[0]
+    }
+})
 
 function selectLoan(loan: any) {
     selectedLoan.value = loan
 }
 
-onMounted(async () => {
-    await fetchLoans()
-    // Auto-select first if available and none selected
-    if (loans.value.length > 0 && !selectedLoan.value) {
-        selectedLoan.value = loans.value[0]
+async function handlePayment() {
+    if (!selectedLoan.value) return
+    
+    const amountStr = prompt(`Enter payment amount (Remaining: $${selectedLoan.value.remainingPrincipal.toLocaleString()}):`, selectedLoan.value.remainingPrincipal.toString())
+    if (!amountStr) return
+    
+    const amount = parseFloat(amountStr)
+    if (isNaN(amount) || amount <= 0) {
+        alert('Invalid amount')
+        return
     }
-})
+
+    try {
+        await payLoan(selectedLoan.value.id, amount)
+        await fetchSummary() // Update sidebar cash/debt
+        // Refresh local selected state
+        selectedLoan.value = loans.value.find((l: any) => l.id === selectedLoan.value.id) || loans.value[0] || null
+    } catch (e) {
+        alert('Payment failed. See console.')
+    }
+}
 </script>
 
 <style scoped>

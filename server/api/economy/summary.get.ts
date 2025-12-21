@@ -2,9 +2,11 @@ import { defineEventHandler, createError } from 'h3'
 import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server'
 import type { EconomySummaryResponse, FinancialState, AssetValuation } from '../../../types/economy'
 
+import type { Database } from '../../../types/database.types'
+
 export default defineEventHandler(async (event): Promise<EconomySummaryResponse> => {
     const user = await serverSupabaseUser(event)
-    const client = await serverSupabaseClient(event)
+    const client = await serverSupabaseClient<Database>(event)
 
     if (!user) {
         throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
@@ -15,7 +17,7 @@ export default defineEventHandler(async (event): Promise<EconomySummaryResponse>
         .from('player_stats')
         .select('cash')
         .eq('user_id', user.id)
-        .single()
+        .single() as { data: { cash: number } | null }
 
     const cash = stats?.cash || 0
 
@@ -47,7 +49,7 @@ export default defineEventHandler(async (event): Promise<EconomySummaryResponse>
             }
         }
 
-        for (const asset of assets) {
+        for (const asset of (assets as any[])) {
             let currentValue = asset.current_value || asset.base_value || 0
 
             // Recalculate if it's a stock with a linked company
@@ -73,7 +75,7 @@ export default defineEventHandler(async (event): Promise<EconomySummaryResponse>
 
     // 3. Fetch Debt (Loans)
     const { data: loans } = await client
-        .from('loans')
+        .from('loans' as any)
         .select('*')
         .eq('borrower_id', user.id)
 

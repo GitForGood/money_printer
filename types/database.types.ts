@@ -161,6 +161,44 @@ export interface Database {
                     created_at?: string
                 }
             }
+            loans: {
+                Row: {
+                    id: string
+                    borrower_id: string | null
+                    lender_name: string
+                    principal: number
+                    remaining_principal: number
+                    interest_rate_daily: number
+                    origination_date: string | null
+                    term_days: number | null
+                    collateral_asset_id: string | null
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    borrower_id?: string | null
+                    lender_name: string
+                    principal: number
+                    remaining_principal: number
+                    interest_rate_daily: number
+                    origination_date?: string | null
+                    term_days?: number | null
+                    collateral_asset_id?: string | null
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    borrower_id?: string | null
+                    lender_name?: string
+                    principal?: number
+                    remaining_principal?: number
+                    interest_rate_daily?: number
+                    origination_date?: string | null
+                    term_days?: number | null
+                    collateral_asset_id?: string | null
+                    created_at?: string
+                }
+            }
         }
         Views: {
             [_ in never]: never

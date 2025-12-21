@@ -1,44 +1,44 @@
 import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { tmpdir } from 'node:os';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, getRouterParam, setCookie, getHeader, getResponseStatusText } from 'file:///home/oliver/Documents/github/money_printer/node_modules/h3/dist/index.mjs';
 import { Server } from 'node:http';
 import path, { resolve, dirname, join } from 'node:path';
 import nodeCrypto from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
-import { escapeHtml } from 'file:///home/oliver/Documents/github/money_printer/node_modules/@vue/shared/dist/shared.cjs.js';
-import { v4 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/uuid/dist-node/index.js';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, getRouterParam, setCookie, getHeader, getResponseStatusText } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/h3/dist/index.mjs';
+import { escapeHtml } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/@vue/shared/dist/shared.cjs.js';
+import { v4 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/uuid/dist-node/index.js';
 import fs, { promises } from 'node:fs';
-import { createServerClient, parseCookieHeader } from 'file:///home/oliver/Documents/github/money_printer/node_modules/@supabase/ssr/dist/main/index.js';
-import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file:///home/oliver/Documents/github/money_printer/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file:///home/oliver/Documents/github/money_printer/node_modules/ufo/dist/index.mjs';
-import destr, { destr as destr$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/destr/dist/index.mjs';
-import { createHooks } from 'file:///home/oliver/Documents/github/money_printer/node_modules/hookable/dist/index.mjs';
-import { createFetch, Headers as Headers$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/ofetch/dist/node.mjs';
-import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file:///home/oliver/Documents/github/money_printer/node_modules/node-mock-http/dist/index.mjs';
-import { createStorage, prefixStorage } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file:///home/oliver/Documents/github/money_printer/node_modules/unstorage/drivers/fs.mjs';
-import { digest } from 'file:///home/oliver/Documents/github/money_printer/node_modules/ohash/dist/index.mjs';
-import { klona } from 'file:///home/oliver/Documents/github/money_printer/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file:///home/oliver/Documents/github/money_printer/node_modules/defu/dist/defu.mjs';
-import { snakeCase } from 'file:///home/oliver/Documents/github/money_printer/node_modules/scule/dist/index.mjs';
-import { getContext } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unctx/dist/index.mjs';
-import { toRouteMatcher, createRouter } from 'file:///home/oliver/Documents/github/money_printer/node_modules/radix3/dist/index.mjs';
-import { readFile } from 'node:fs/promises';
-import consola, { consola as consola$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/consola/dist/index.mjs';
-import { ErrorParser } from 'file:///home/oliver/Documents/github/money_printer/node_modules/youch-core/build/index.js';
-import { Youch } from 'file:///home/oliver/Documents/github/money_printer/node_modules/youch/build/index.js';
-import { SourceMapConsumer } from 'file:///home/oliver/Documents/github/money_printer/node_modules/source-map/source-map.js';
-import { AsyncLocalStorage } from 'node:async_hooks';
-import { stringify, uneval } from 'file:///home/oliver/Documents/github/money_printer/node_modules/devalue/index.js';
-import { captureRawStackTrace, parseRawStackTrace } from 'file:///home/oliver/Documents/github/money_printer/node_modules/errx/dist/index.js';
-import { isVNode, toValue, isRef } from 'file:///home/oliver/Documents/github/money_printer/node_modules/vue/index.mjs';
-import { fileURLToPath } from 'node:url';
-import { dirname as dirname$1, resolve as resolve$1 } from 'file:///home/oliver/Documents/github/money_printer/node_modules/pathe/dist/index.mjs';
-import { createHead as createHead$1, propsToString, renderSSRHead } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unhead/dist/server.mjs';
+import { createServerClient, parseCookieHeader } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/@supabase/ssr/dist/main/index.js';
+import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/ufo/dist/index.mjs';
+import destr, { destr as destr$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/destr/dist/index.mjs';
 import process$1 from 'node:process';
-import { renderToString } from 'file:///home/oliver/Documents/github/money_printer/node_modules/vue/server-renderer/index.mjs';
-import { walkResolver } from 'file:///home/oliver/Documents/github/money_printer/node_modules/unhead/dist/utils.mjs';
+import { renderToString } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/vue/server-renderer/index.mjs';
+import { klona } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/klona/dist/index.mjs';
+import defu, { defuFn } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/defu/dist/defu.mjs';
+import { snakeCase } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/scule/dist/index.mjs';
+import { createHead as createHead$1, propsToString, renderSSRHead } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unhead/dist/server.mjs';
+import { stringify, uneval } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/devalue/index.js';
+import { isVNode, toValue, isRef } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/vue/index.mjs';
+import { createHooks } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/hookable/dist/index.mjs';
+import { createFetch, Headers as Headers$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/ofetch/dist/node.mjs';
+import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/node-mock-http/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unstorage/drivers/fs.mjs';
+import { digest } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/ohash/dist/index.mjs';
+import { toRouteMatcher, createRouter } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/radix3/dist/index.mjs';
+import { readFile } from 'node:fs/promises';
+import consola, { consola as consola$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/consola/dist/index.mjs';
+import { ErrorParser } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/youch-core/build/index.js';
+import { Youch } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/youch/build/index.js';
+import { SourceMapConsumer } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/source-map/source-map.js';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { getContext } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unctx/dist/index.mjs';
+import { captureRawStackTrace, parseRawStackTrace } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/errx/dist/index.js';
+import { fileURLToPath } from 'node:url';
+import { dirname as dirname$1, resolve as resolve$1 } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/pathe/dist/index.mjs';
+import { walkResolver } from 'file://C:/Users/swegr/Documents/GitHub/money_printer/node_modules/unhead/dist/utils.mjs';
 
-const serverAssets = [{"baseName":"server","dir":"/home/oliver/Documents/github/money_printer/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"C:/Users/swegr/Documents/GitHub/money_printer/server/assets"}];
 
 const assets$1 = createStorage();
 
@@ -50,11 +50,11 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets$1);
 
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/oliver/Documents/github/money_printer","watchOptions":{"ignored":[null]}}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/oliver/Documents/github/money_printer/server","watchOptions":{"ignored":[null]}}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/oliver/Documents/github/money_printer/.nuxt"}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/oliver/Documents/github/money_printer/.nuxt/cache"}));
-storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"/home/oliver/Documents/github/money_printer/.data/kv"}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:/Users/swegr/Documents/GitHub/money_printer","watchOptions":{"ignored":[null]}}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:/Users/swegr/Documents/GitHub/money_printer/server","watchOptions":{"ignored":[null]}}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:/Users/swegr/Documents/GitHub/money_printer/.nuxt"}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:/Users/swegr/Documents/GitHub/money_printer/.nuxt/cache"}));
+storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"C:/Users/swegr/Documents/GitHub/money_printer/.data/kv"}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -688,7 +688,7 @@ const _inlineRuntimeConfig = {
   },
   "supabase": {
     "serviceKey": "",
-    "secretKey": ""
+    "secretKey": "sb_secret_19G0LELl6EFraPyTjhjq9A_FGH12h0g"
   }
 };
 const envOptions = {
@@ -733,11 +733,6 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
     }
     return void 0;
   }
-});
-
-getContext("nitro-app", {
-  asyncContext: false,
-  AsyncLocalStorage: void 0
 });
 
 const config = useRuntimeConfig();
@@ -1398,13 +1393,13 @@ if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
 window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
 `;
 
-const _QVRnBCcCki73vsQ078G3ztGCVyI7nl2NQdZPWm9W3A = (function(nitro) {
+const _aK_AJpzt01fv31UnwmfhWoSYISYfZCA_qRNo8LnOCQA = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
     htmlContext.head.push(`<script>${script}<\/script>`);
   });
 });
 
-const rootDir = "/home/oliver/Documents/github/money_printer";
+const rootDir = "C:/Users/swegr/Documents/GitHub/money_printer";
 
 const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
 
@@ -1427,7 +1422,7 @@ const devReducers = {
   URL: (data) => data instanceof URL ? data.toString() : void 0
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _yaDuEQizjx6BwLSQteva7N40QpAgRdUdmLiKEDMBtW8 = (nitroApp) => {
+const _pc0ddydk2FNoDHd6KT5dLjjgRPKdHT_Slno_AZSifo = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -1497,11 +1492,26 @@ function onConsoleLog(callback) {
 }
 
 const plugins = [
-  _QVRnBCcCki73vsQ078G3ztGCVyI7nl2NQdZPWm9W3A,
-_yaDuEQizjx6BwLSQteva7N40QpAgRdUdmLiKEDMBtW8
+  _aK_AJpzt01fv31UnwmfhWoSYISYfZCA_qRNo8LnOCQA,
+_pc0ddydk2FNoDHd6KT5dLjjgRPKdHT_Slno_AZSifo
 ];
 
-const assets = {};
+const assets = {
+  "/index.mjs": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1edae-+umeaibk5olR10wem8oGVs9OjoQ\"",
+    "mtime": "2025-12-21T12:22:53.527Z",
+    "size": 126382,
+    "path": "index.mjs"
+  },
+  "/index.mjs.map": {
+    "type": "application/json",
+    "etag": "\"74192-ctpzR4kflGnyU37Dq+rCx7lBl1M\"",
+    "mtime": "2025-12-21T12:22:53.527Z",
+    "size": 475538,
+    "path": "index.mjs.map"
+  }
+};
 
 function readAsset (id) {
   const serverDir = dirname$1(fileURLToPath(globalThis._importMeta_.url));
@@ -1526,7 +1536,7 @@ function getAsset (id) {
 
 const METHODS = /* @__PURE__ */ new Set(["HEAD", "GET"]);
 const EncodingMap = { gzip: ".gz", br: ".br" };
-const __s60D5 = eventHandler((event) => {
+const _J6F6dX = eventHandler((event) => {
   if (event.method && !METHODS.has(event.method)) {
     return;
   }
@@ -1662,8 +1672,8 @@ function publicAssetsURL(...path) {
 
 const APP_ROOT_OPEN_TAG = `<${appRootTag}${propsToString(appRootAttrs)}>`;
 const APP_ROOT_CLOSE_TAG = `</${appRootTag}>`;
-const getServerEntry = () => import('file:///home/oliver/Documents/github/money_printer/.nuxt//dist/server/server.mjs').then((r) => r.default || r);
-const getClientManifest = () => import('file:///home/oliver/Documents/github/money_printer/.nuxt//dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getServerEntry = () => import('file://C:/Users/swegr/Documents/GitHub/money_printer/.nuxt//dist/server/server.mjs').then((r) => r.default || r);
+const getClientManifest = () => import('file://C:/Users/swegr/Documents/GitHub/money_printer/.nuxt//dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
 const getSSRRenderer = lazyCachedFunction(async () => {
   const createSSRApp = await getServerEntry();
   if (!createSSRApp) {
@@ -1911,43 +1921,49 @@ async function getIslandContext(event) {
   return ctx;
 }
 
-const _lazy_ri5esX = () => Promise.resolve().then(function () { return perform_post$1; });
-const _lazy__daLny = () => Promise.resolve().then(function () { return buy_post$1; });
-const _lazy_8IJyx_ = () => Promise.resolve().then(function () { return index_get$1; });
-const _lazy_kx06Q6 = () => Promise.resolve().then(function () { return marketUpdate_post$1; });
-const _lazy_LwGcJC = () => Promise.resolve().then(function () { return init_post$1; });
-const _lazy_Wqq3iY = () => Promise.resolve().then(function () { return step_post$1; });
-const _lazy_S5JQNs = () => Promise.resolve().then(function () { return summary_get$1; });
-const _lazy_3pJWTV = () => Promise.resolve().then(function () { return pending_get$1; });
-const _lazy_QZBTv3 = () => Promise.resolve().then(function () { return resolve_post$1; });
-const _lazy_yaQfOG = () => Promise.resolve().then(function () { return tick_post$1; });
-const _lazy_0JKoK7 = () => Promise.resolve().then(function () { return active_get$1; });
-const _lazy_PwX_37 = () => Promise.resolve().then(function () { return offers_get$1; });
-const _lazy_g_S_lc = () => Promise.resolve().then(function () { return companies_get$1; });
-const _lazy_mrUeq_ = () => Promise.resolve().then(function () { return create_post$1; });
-const _lazy_Qyib5h = () => Promise.resolve().then(function () { return profile_get$1; });
-const _lazy__Gxrt_ = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_xkTFsZ = () => Promise.resolve().then(function () { return perform_post$1; });
+const _lazy_cK1Ztf = () => Promise.resolve().then(function () { return buy_post$1; });
+const _lazy_lGTpzR = () => Promise.resolve().then(function () { return index_get$1; });
+const _lazy_QFIxob = () => Promise.resolve().then(function () { return sell_post$1; });
+const _lazy_sSbcdP = () => Promise.resolve().then(function () { return marketUpdate_post$1; });
+const _lazy_YaDV2O = () => Promise.resolve().then(function () { return init_post$1; });
+const _lazy_RQU5wv = () => Promise.resolve().then(function () { return step_post$1; });
+const _lazy_JmMWM5 = () => Promise.resolve().then(function () { return summary_get$1; });
+const _lazy_ovcAol = () => Promise.resolve().then(function () { return pending_get$1; });
+const _lazy_x11Q7a = () => Promise.resolve().then(function () { return resolve_post$1; });
+const _lazy_sAkf8D = () => Promise.resolve().then(function () { return tick_post$1; });
+const _lazy_eoyGGP = () => Promise.resolve().then(function () { return active_get$1; });
+const _lazy_WyREVF = () => Promise.resolve().then(function () { return offers_get$1; });
+const _lazy_5V25HQ = () => Promise.resolve().then(function () { return pay_post$1; });
+const _lazy_K0uDdx = () => Promise.resolve().then(function () { return take_post$1; });
+const _lazy_quZYuk = () => Promise.resolve().then(function () { return companies_get$1; });
+const _lazy_16rMgu = () => Promise.resolve().then(function () { return create_post$1; });
+const _lazy_iI7KoR = () => Promise.resolve().then(function () { return profile_get$1; });
+const _lazy_0ySXGh = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '', handler: __s60D5, lazy: false, middleware: true, method: undefined },
-  { route: '/api/actions/perform', handler: _lazy_ri5esX, lazy: true, middleware: false, method: "post" },
-  { route: '/api/assets/buy', handler: _lazy__daLny, lazy: true, middleware: false, method: "post" },
-  { route: '/api/assets', handler: _lazy_8IJyx_, lazy: true, middleware: false, method: "get" },
-  { route: '/api/cron/market-update', handler: _lazy_kx06Q6, lazy: true, middleware: false, method: "post" },
-  { route: '/api/debug/market/init', handler: _lazy_LwGcJC, lazy: true, middleware: false, method: "post" },
-  { route: '/api/debug/market/step', handler: _lazy_Wqq3iY, lazy: true, middleware: false, method: "post" },
-  { route: '/api/economy/summary', handler: _lazy_S5JQNs, lazy: true, middleware: false, method: "get" },
-  { route: '/api/events/pending', handler: _lazy_3pJWTV, lazy: true, middleware: false, method: "get" },
-  { route: '/api/events/resolve', handler: _lazy_QZBTv3, lazy: true, middleware: false, method: "post" },
-  { route: '/api/game/tick', handler: _lazy_yaQfOG, lazy: true, middleware: false, method: "post" },
-  { route: '/api/loans/active', handler: _lazy_0JKoK7, lazy: true, middleware: false, method: "get" },
-  { route: '/api/loans/offers', handler: _lazy_PwX_37, lazy: true, middleware: false, method: "get" },
-  { route: '/api/market/companies', handler: _lazy_g_S_lc, lazy: true, middleware: false, method: "get" },
-  { route: '/api/market/create', handler: _lazy_mrUeq_, lazy: true, middleware: false, method: "post" },
-  { route: '/api/player/profile', handler: _lazy_Qyib5h, lazy: true, middleware: false, method: "get" },
-  { route: '/__nuxt_error', handler: _lazy__Gxrt_, lazy: true, middleware: false, method: undefined },
+  { route: '', handler: _J6F6dX, lazy: false, middleware: true, method: undefined },
+  { route: '/api/actions/perform', handler: _lazy_xkTFsZ, lazy: true, middleware: false, method: "post" },
+  { route: '/api/assets/buy', handler: _lazy_cK1Ztf, lazy: true, middleware: false, method: "post" },
+  { route: '/api/assets', handler: _lazy_lGTpzR, lazy: true, middleware: false, method: "get" },
+  { route: '/api/assets/sell', handler: _lazy_QFIxob, lazy: true, middleware: false, method: "post" },
+  { route: '/api/cron/market-update', handler: _lazy_sSbcdP, lazy: true, middleware: false, method: "post" },
+  { route: '/api/debug/market/init', handler: _lazy_YaDV2O, lazy: true, middleware: false, method: "post" },
+  { route: '/api/debug/market/step', handler: _lazy_RQU5wv, lazy: true, middleware: false, method: "post" },
+  { route: '/api/economy/summary', handler: _lazy_JmMWM5, lazy: true, middleware: false, method: "get" },
+  { route: '/api/events/pending', handler: _lazy_ovcAol, lazy: true, middleware: false, method: "get" },
+  { route: '/api/events/resolve', handler: _lazy_x11Q7a, lazy: true, middleware: false, method: "post" },
+  { route: '/api/game/tick', handler: _lazy_sAkf8D, lazy: true, middleware: false, method: "post" },
+  { route: '/api/loans/active', handler: _lazy_eoyGGP, lazy: true, middleware: false, method: "get" },
+  { route: '/api/loans/offers', handler: _lazy_WyREVF, lazy: true, middleware: false, method: "get" },
+  { route: '/api/loans/pay', handler: _lazy_5V25HQ, lazy: true, middleware: false, method: "post" },
+  { route: '/api/loans/take', handler: _lazy_K0uDdx, lazy: true, middleware: false, method: "post" },
+  { route: '/api/market/companies', handler: _lazy_quZYuk, lazy: true, middleware: false, method: "get" },
+  { route: '/api/market/create', handler: _lazy_16rMgu, lazy: true, middleware: false, method: "post" },
+  { route: '/api/player/profile', handler: _lazy_iI7KoR, lazy: true, middleware: false, method: "get" },
+  { route: '/__nuxt_error', handler: _lazy_0ySXGh, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy__Gxrt_, lazy: true, middleware: false, method: undefined }
+  { route: '/**', handler: _lazy_0ySXGh, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -2321,6 +2337,18 @@ var EventType = /* @__PURE__ */ ((EventType2) => {
   return EventType2;
 })(EventType || {});
 
+const calculateSlippage = (sharesToSell, company) => {
+  const percentage = sharesToSell / company.totalShares;
+  const threshold = 0.01;
+  if (percentage <= threshold) {
+    return company.sharePrice;
+  }
+  const excessPercentage = percentage - threshold;
+  const slippageFactor = excessPercentage * 0.5;
+  const discount = Math.min(slippageFactor, 0.5);
+  return company.sharePrice * (1 - discount);
+};
+
 const STATE_FILE = path.resolve(process.cwd(), "server/data/market_state.json");
 class StockEngine {
   static loadState() {
@@ -2547,13 +2575,50 @@ const perform_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProp
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const buy_post = defineEventHandler(async (event) => {
-  const body = await readBody(event);
-  if (!body || !body.assetType) {
-    throw createError({ statusCode: 400, statusMessage: "Missing asset details" });
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
+  const body = await readBody(event);
+  const { assetType, companyId, shares, amount } = body;
+  if (!assetType) {
+    throw createError({ statusCode: 400, statusMessage: "Missing assetType" });
+  }
+  const { data: stats, error: statsError } = await client.from("player_stats").select("cash").eq("user_id", user.id).maybeSingle();
+  if (statsError || !stats) throw createError({ statusCode: 500, statusMessage: "Failed to fetch player stats" });
+  let cost = 0;
+  let assetName = "New Asset";
+  let properties = {};
+  if (assetType === "stock") {
+    if (!companyId || !shares) throw createError({ statusCode: 400, statusMessage: "Missing stock details" });
+    const { data: company } = await client.from("companies").select("*").eq("id", companyId).single();
+    if (!company) throw createError({ statusCode: 404, statusMessage: "Company not found" });
+    cost = Number(company.share_price) * shares;
+    assetName = company.name;
+    properties = { ticker: company.ticker, company_id: company.id };
+  } else {
+    cost = amount || 0;
+  }
+  if (stats.cash < cost) {
+    throw createError({ statusCode: 400, statusMessage: "Insufficient funds" });
+  }
+  await client.from("player_stats").update({ cash: ((stats == null ? void 0 : stats.cash) || 0) - cost }).eq("user_id", user.id);
+  const { data: newAsset, error: assetError } = await client.from("assets").insert({
+    owner_id: user.id,
+    type: assetType,
+    name: assetName,
+    base_value: cost,
+    current_value: cost,
+    company_id: companyId,
+    shares,
+    properties
+  }).select().single();
+  if (assetError) throw createError({ statusCode: 500, statusMessage: "Failed to create asset" });
   return {
     success: true,
-    assetId: "ast_" + Math.floor(Math.random() * 1e4)
+    asset: newAsset,
+    cost
   };
 });
 
@@ -2606,6 +2671,7 @@ const index_get = defineEventHandler(async (event) => {
       const currentPrice = company ? Number(company.share_price) : base.currentValue / (shares || 1);
       return {
         ...base,
+        type: AssetType.Stock,
         name: company ? company.name : base.name,
         ticker: company ? company.ticker : asset.ticker || "???",
         shares,
@@ -2615,6 +2681,7 @@ const index_get = defineEventHandler(async (event) => {
     } else if (asset.type === AssetType.RealEstate) {
       return {
         ...base,
+        type: AssetType.RealEstate,
         location: props.location || asset.location || "Unknown",
         condition: Number((_b = (_a = props.condition) != null ? _a : asset.condition) != null ? _b : 100),
         isRenovating: Boolean((_d = (_c = props.is_renovating) != null ? _c : asset.is_renovating) != null ? _d : false)
@@ -2622,6 +2689,7 @@ const index_get = defineEventHandler(async (event) => {
     } else if (asset.type === AssetType.Business) {
       return {
         ...base,
+        type: AssetType.Business,
         sector: props.sector || asset.sector || "Generic",
         level: Number((_f = (_e = props.level) != null ? _e : asset.level) != null ? _f : 1),
         employees: Number((_h = (_g = props.employees) != null ? _g : asset.employees) != null ? _h : 0),
@@ -2637,6 +2705,57 @@ const index_get = defineEventHandler(async (event) => {
 const index_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
   default: index_get
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const sell_post = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const body = await readBody(event);
+  const { assetId } = body;
+  if (!assetId) {
+    throw createError({ statusCode: 400, statusMessage: "Missing assetId" });
+  }
+  const { data: asset, error: assetError } = await client.from("assets").select("*, company:companies(*)").eq("id", assetId).eq("owner_id", user.id).maybeSingle();
+  if (assetError || !asset) throw createError({ statusCode: 404, statusMessage: "Asset not found" });
+  let realizedValue = Number(asset.current_value || asset.base_value);
+  if (asset.type === "stock" && asset.company) {
+    const shares = Number(asset.shares || 0);
+    const priceAfterSlippage = calculateSlippage(shares, {
+      share_price: asset.company.share_price,
+      volatility: asset.company.volatility,
+      total_shares: asset.company.total_shares
+    });
+    realizedValue = shares * priceAfterSlippage;
+  }
+  const costBasis = Number(asset.base_value || 0);
+  const gain = Math.max(0, realizedValue - costBasis);
+  const tax = gain * 0.3;
+  const finalProceeds = realizedValue - tax;
+  const { data: stats, error: statsError } = await client.from("player_stats").select("cash").eq("user_id", user.id).maybeSingle();
+  if (statsError || !stats) throw createError({ statusCode: 500, statusMessage: "Failed to fetch player stats" });
+  const currentCash = (stats == null ? void 0 : stats.cash) || 0;
+  const { error: updateError } = await client.from("player_stats").update({ cash: currentCash + finalProceeds }).eq("user_id", user.id);
+  if (updateError) throw createError({ statusCode: 500, statusMessage: "Failed to update balance" });
+  const { error: deleteError } = await client.from("assets").delete().eq("id", assetId);
+  if (deleteError) {
+    console.error("Failed to delete asset after adding cash!", deleteError);
+    return { success: false, error: "Inconsistency error" };
+  }
+  return {
+    success: true,
+    realizedValue,
+    tax,
+    finalProceeds,
+    newBalance: Number(stats.cash || 0) + finalProceeds
+  };
+});
+
+const sell_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: sell_post
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const marketUpdate_post = defineEventHandler(async (event) => {
@@ -2955,6 +3074,90 @@ const offers_get = defineEventHandler(async (event) => {
 const offers_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
   default: offers_get
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const pay_post = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const body = await readBody(event);
+  const { loanId, amount } = body;
+  if (!loanId || !amount) {
+    throw createError({ statusCode: 400, statusMessage: "Missing loanId or amount" });
+  }
+  const { data: loan, error: loanError } = await client.from("loans").select("*").eq("id", loanId).eq("borrower_id", user.id).maybeSingle();
+  if (loanError || !loan) {
+    throw createError({ statusCode: 404, statusMessage: "Loan not found" });
+  }
+  const { data: stats, error: statsError } = await client.from("player_stats").select("cash").eq("user_id", user.id).maybeSingle();
+  if (statsError || !stats) throw createError({ statusCode: 404, statusMessage: "Player stats not found" });
+  const currentCash = (stats == null ? void 0 : stats.cash) || 0;
+  if (currentCash < amount) {
+    throw createError({ statusCode: 400, statusMessage: "Insufficient funds" });
+  }
+  const paymentAmount = Math.min(amount, Number(loan.remaining_principal));
+  await client.from("player_stats").update({ cash: currentCash - paymentAmount }).eq("user_id", user.id);
+  const newPrincipal = Number(loan.remaining_principal) - paymentAmount;
+  const { error: updateError } = await client.from("loans").update({ remaining_principal: newPrincipal }).eq("id", loanId);
+  if (updateError) throw createError({ statusCode: 500, statusMessage: "Failed to update loan principal" });
+  return {
+    success: true,
+    paid: paymentAmount,
+    remaining: newPrincipal
+  };
+});
+
+const pay_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: pay_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const take_post = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const body = await readBody(event);
+  const { lenderName, principal, interestRateDaily, termDays, collateralAssetId } = body;
+  if (!principal || !lenderName || interestRateDaily === void 0) {
+    throw createError({ statusCode: 400, statusMessage: "Missing loan details" });
+  }
+  if (collateralAssetId) {
+    const { data: asset, error: assetError } = await client.from("assets").select("*").eq("id", collateralAssetId).eq("owner_id", user.id).maybeSingle();
+    if (assetError || !asset) {
+      throw createError({ statusCode: 400, statusMessage: "Invalid or unauthorized collateral asset" });
+    }
+    const assetValue = Number(asset.current_value || asset.base_value);
+    if (principal > assetValue * 0.8) {
+      throw createError({ statusCode: 400, statusMessage: "Principal exceeds max LTV for collateral" });
+    }
+  }
+  const { data: stats, error: statsError } = await client.from("player_stats").select("cash").eq("user_id", user.id).maybeSingle();
+  if (statsError || !stats) throw createError({ statusCode: 500, statusMessage: "Failed to fetch player stats" });
+  const currentCash = (stats == null ? void 0 : stats.cash) || 0;
+  await client.from("player_stats").update({ cash: currentCash + Number(principal) }).eq("user_id", user.id);
+  const { data: loan, error: loanError } = await client.from("loans").insert({
+    borrower_id: user.id,
+    lender_name: lenderName,
+    principal,
+    remaining_principal: principal,
+    interest_rate_daily: interestRateDaily,
+    term_days: termDays || -1,
+    collateral_asset_id: collateralAssetId
+  }).select().single();
+  if (loanError) throw createError({ statusCode: 500, statusMessage: "Failed to create loan record" });
+  return {
+    success: true,
+    loan
+  };
+});
+
+const take_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: take_post
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const companies_get = defineEventHandler(async (event) => {

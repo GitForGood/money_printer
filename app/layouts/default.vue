@@ -24,7 +24,7 @@
 }
 
 .sidebar {
-  width: 250px;
+  width: var(--sidebar-width);
   flex-shrink: 0;
   border-right: 1px solid var(--text-color-variant);
   display: flex;
