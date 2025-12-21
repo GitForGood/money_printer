@@ -11,14 +11,14 @@ export default defineEventHandler(async (event): Promise<PlayerProfile> => {
     }
 
     // Fetch Profile (Assume 'profiles' table linked to auth.users)
-    const { data: profile, error: profileError } = await client
+    const { data: profile, error: profileError } = await (client as any)
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single()
 
     // Fetch Stats (Assume 'player_stats' table)
-    const { data: stats, error: statsError } = await client
+    const { data: stats, error: statsError } = await (client as any)
         .from('player_stats')
         .select('*')
         .eq('user_id', user.id)

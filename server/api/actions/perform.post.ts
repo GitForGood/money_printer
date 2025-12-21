@@ -1,6 +1,10 @@
 import { defineEventHandler, readBody, createError } from 'h3'
 import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server'
 import type { ActionType, ActionRequirement } from '../../../types/actions'
+import type { Database } from '../../../types/database.types'
+
+type ActionRow = Database['public']['Tables']['game_actions']['Row']
+type PlayerStatsRow = Database['public']['Tables']['player_stats']['Row']
 
 interface PerformActionBody {
     actionId: string;
@@ -10,18 +14,17 @@ interface PerformActionBody {
 
 export default defineEventHandler(async (event) => {
     const user = await serverSupabaseUser(event)
-    const client = await serverSupabaseClient(event)
+    const client = await serverSupabaseClient<Database>(event)
     const body = await readBody<PerformActionBody>(event)
 
     if (!user) throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
     if (!body || !body.actionId) throw createError({ statusCode: 400, statusMessage: 'Missing actionId' })
 
     // 1. Fetch Action Definition
-    const { data: actionDef, error: actionError } = await client
-        .from('game_actions')
+    const { data: actionDef, error: actionError } = await (client.from('game_actions') as any)
         .select('*')
         .eq('id', body.actionId)
-        .single()
+        .single() as { data: ActionRow | null, error: any }
 
     if (actionError || !actionDef) {
         // Fallback or error
@@ -29,25 +32,25 @@ export default defineEventHandler(async (event) => {
     }
 
     // 2. Fetch Player Stats for resource checks
-    const { data: stats, error: statsError } = await client
-        .from('player_stats')
+    const { data: stats, error: statsError } = await (client.from('player_stats') as any)
         .select('*')
         .eq('user_id', user.id)
-        .single()
+        .single() as { data: PlayerStatsRow | null, error: any }
 
     if (statsError || !stats) {
         throw createError({ statusCode: 500, statusMessage: 'Failed to retrieve player stats' })
     }
 
     // 3. Verify Requirements & Calculate Costs
-    const requirements: ActionRequirement[] = actionDef.requirements || [] // JSONB
+    const requirements = (actionDef.requirements as unknown as ActionRequirement[]) || [] // JSONB
     const updates: Record<string, number> = {}
     const changes: any[] = []
 
     for (const req of requirements) {
-        const currentVal = stats[req.resource] ?? 0
+        // Use either the current value from stats or the pending update value if already modified
+        const currentVal = (req.resource in updates) ? updates[req.resource] : ((stats as any)[req.resource] ?? 0)
 
-        // Min check
+        // Min check (against original or current value? Usually original, but here we use current)
         if (req.min !== undefined && currentVal < req.min) {
             throw createError({ statusCode: 400, statusMessage: `Insufficient ${req.resource} (Required: ${req.min})` })
         }
@@ -57,20 +60,9 @@ export default defineEventHandler(async (event) => {
             if (currentVal < req.cost) {
                 throw createError({ statusCode: 400, statusMessage: `Not enough ${req.resource} to pay cost` })
             }
-            // Track update
-            const newVal = currentVal - req.cost
-            updates[req.resource] = newVal // Assumes 'stats' object has keys matching 'resource'
 
-            // Should verify that updates[req.resource] is not overwritten by multiple reqs?
-            // Simple accumulation logic:
-            if (req.resource in updates) {
-                // If we already touched it, use the dirty value
-                updates[req.resource] -= req.cost
-                if (updates[req.resource] < 0) throw createError({ statusCode: 400, statusMessage: 'Cost exceeds balance' })
-            } else {
-                updates[req.resource] = currentVal - req.cost
-            }
-
+            // Deduct and track update
+            updates[req.resource] = currentVal - req.cost
             changes.push({ path: `player.${req.resource}`, value: -req.cost, operation: 'add' })
         }
     }
@@ -79,7 +71,7 @@ export default defineEventHandler(async (event) => {
     let success = true
     let message = 'Action performed successfully'
 
-    if (actionDef.base_success_rate !== undefined) {
+    if (actionDef.base_success_rate !== null && actionDef.base_success_rate !== undefined) {
         if (Math.random() > actionDef.base_success_rate) {
             success = false
             message = 'Action failed'
@@ -91,8 +83,7 @@ export default defineEventHandler(async (event) => {
 
     // 5. Commit Resource Deductions
     if (Object.keys(updates).length > 0) {
-        const { error: updateError } = await client
-            .from('player_stats')
+        const { error: updateError } = await (client.from('player_stats') as any)
             .update(updates)
             .eq('user_id', user.id)
 

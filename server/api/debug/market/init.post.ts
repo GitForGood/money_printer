@@ -1,11 +1,14 @@
 import { defineEventHandler, createError, readBody } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
 import { StockEngine } from '../../../utils/stockMarket'
+import type { Database } from '../../../../types/database.types'
+
+type CompanyInsert = Database['public']['Tables']['companies']['Insert']
 
 export default defineEventHandler(async (event) => {
     // Optional: Protect with admin check or dev flag
 
-    const client = await serverSupabaseClient(event)
+    const client = await serverSupabaseClient<Database>(event)
     const body = await readBody(event)
 
     // Check if companies already exist
@@ -25,7 +28,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const sectors = StockEngine.getInitialSectors()
-    const companiesToInsert = []
+    const companiesToInsert: CompanyInsert[] = []
 
     for (const sector of sectors) {
         // Generate 10 companies per sector
@@ -46,17 +49,15 @@ export default defineEventHandler(async (event) => {
                 total_shares: company.totalShares,
                 volatility: company.volatility,
                 dividend_yield: company.dividendYield,
-                // jsonb fields?
-                // Assuming 'price_history' is a JSONB column or similar
-                // If checking the schema from index.get.ts, it didn't explicitly show it,
-                // but we will assume it can be stored.
-                // We'll trust the plan and assume we can add it or it's ignored if column missing.
-                // If Supabase throws error, we will fix schema.
+                price_history: company.priceHistory as any,
+                created_at: new Date().toISOString()
             })
         }
     }
 
-    const { error: insertError } = await client.from('companies').insert(companiesToInsert)
+    // Using 'as any' here because the Supabase client's generated types can sometimes fail 
+    // to correctly resolve the table schema, leading to an incorrect 'never' type inference.
+    const { error: insertError } = await client.from('companies').insert(companiesToInsert as any)
 
     if (insertError) throw createError({ statusCode: 500, statusMessage: insertError.message })
 
