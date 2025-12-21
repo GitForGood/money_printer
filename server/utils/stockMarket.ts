@@ -117,7 +117,15 @@ export class StockEngine {
             if (updateError) throw updateError;
         }
 
-        // 5. Save State
+        // 5. Regenerate AP for all players
+        const { error: apError } = await client.rpc('regenerate_player_ap');
+        if (apError) {
+            console.error('Failed to regenerate AP:', apError);
+            // We don't necessarily want to crash the market tick if AP regen fails, 
+            // but it should be logged.
+        }
+
+        // 6. Save State
         state.lastTick = new Date().toISOString();
         state.quarter++;
         StockEngine.saveState(state);

@@ -65,6 +65,7 @@
                          <span :class="getRoiColor(selectedAsset)">
                              {{ (selectedAsset.currentValue - selectedAsset.baseValue) > 0 ? '+' : '' }}
                              ${{ (selectedAsset.currentValue - selectedAsset.baseValue).toLocaleString() }}
+                             ({{ calculateRoi(selectedAsset) }}%)
                          </span>
                     </div>
                 </TerminalPanel>
@@ -82,6 +83,17 @@
                     <TerminalPanel title="POSITION">
                          <div class="stat-item"><span class="label">SHARES:</span><span class="value">{{ selectedAsset.shares }}</span></div>
                          <div class="stat-item"><span class="label">AVG COST:</span><span class="value">${{ selectedAsset.costBasisPerShare }}</span></div>
+                    </TerminalPanel>
+                </div>
+
+                <div class="mt-4" v-if="selectedAsset.type === 'business'">
+                    <TerminalPanel title="OPERATIONS">
+                         <div class="stat-item"><span class="label">SECTOR:</span><span class="value">{{ selectedAsset.sector }}</span></div>
+                         <div class="stat-item"><span class="label">REVENUE/QTR:</span><span class="value text-green">+${{ selectedAsset.revenuePerQuarter?.toLocaleString() }}</span></div>
+                         <div class="stat-item"><span class="label">EXPENSE/QTR:</span><span class="value text-red">-${{ selectedAsset.expensePerQuarter?.toLocaleString() }}</span></div>
+                         <div class="stat-item"><span class="label">NET/QTR:</span><span class="value" :class="(selectedAsset.revenuePerQuarter - selectedAsset.expensePerQuarter) >= 0 ? 'text-green' : 'text-red'">
+                            ${{ (selectedAsset.revenuePerQuarter - selectedAsset.expensePerQuarter)?.toLocaleString() }}
+                         </span></div>
                     </TerminalPanel>
                 </div>
 

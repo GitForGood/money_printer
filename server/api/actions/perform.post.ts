@@ -47,10 +47,13 @@ export default defineEventHandler(async (event) => {
     const changes: any[] = []
 
     for (const req of requirements) {
-        // Use either the current value from stats or the pending update value if already modified
-        const currentVal = (req.resource in updates) ? updates[req.resource] : ((stats as any)[req.resource] ?? 0)
+        // Map resource key to stats column (database snake_case)
+        const resourceKey = req.resource === 'ap' ? 'ap_quarterly' : req.resource
 
-        // Min check (against original or current value? Usually original, but here we use current)
+        // Use either the current value from stats or the pending update value if already modified
+        const currentVal = (resourceKey in updates) ? updates[resourceKey] : ((stats as any)[resourceKey] ?? 0)
+
+        // Min check
         if (req.min !== undefined && currentVal < req.min) {
             throw createError({ statusCode: 400, statusMessage: `Insufficient ${req.resource} (Required: ${req.min})` })
         }
@@ -62,7 +65,7 @@ export default defineEventHandler(async (event) => {
             }
 
             // Deduct and track update
-            updates[req.resource] = currentVal - req.cost
+            updates[resourceKey] = currentVal - req.cost
             changes.push({ path: `player.${req.resource}`, value: -req.cost, operation: 'add' })
         }
     }

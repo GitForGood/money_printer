@@ -39,10 +39,13 @@ export default defineEventHandler(async (event): Promise<PlayerProfile> => {
             heat: stats?.heat || 0,
             karma: stats?.karma || 0,
             reputation: stats?.reputation || 0,
-            insiderLevel: stats?.insider_level || 0
-        },
-        level: stats?.level || 1,
-        xp: stats?.xp || 0,
-        nextLevelXp: ((stats?.level || 1) * 1000) // Simple progression formula
+            insiderLevel: stats?.insider_level || 0,
+            apInstant: stats?.ap_instant ?? 10,
+            maxApInstant: stats?.max_ap_instant ?? 10,
+            apQuarterly: stats?.ap_quarterly ?? 5,
+            maxApQuarterly: stats?.max_ap_quarterly ?? 5,
+            apLongTerm: stats?.ap_long_term ?? 2,
+            maxApLongTerm: stats?.max_ap_long_term ?? 2
+        }
     }
 })

@@ -1,49 +1,104 @@
-import { ref, computed } from 'vue'
-import type { PublicCompany } from '../../types/market'
+import { ref } from 'vue'
+
+export interface MarketStock {
+    id: string;
+    name: string;
+    ticker: string;
+    sector: string;
+    share_price: number;
+    prev_share_price: number;
+    total_shares: number;
+    owned_shares: number;
+    ownership_percent: number;
+}
+
+export interface MarketAssets {
+    stocks: MarketStock[];
+    assets: any[]; // Non-stock assets
+}
 
 export const useMarket = () => {
-    const companies = useState<PublicCompany[]>('marketCompanies', () => [])
-    const globalTrend = useState<number>('marketTrend', () => 0)
-
+    const marketData = useState<MarketAssets | null>('marketData', () => null)
     const loading = ref(false)
+    const error = ref<string | null>(null)
 
-    const fetchCompanies = async () => {
+    const fetchMarket = async () => {
         loading.value = true
+        error.value = null
         try {
-            const { data } = await useFetch('/api/market/companies')
-            if (data.value && data.value.companies) {
-                companies.value = data.value.companies as PublicCompany[]
+            const data = await $fetch<MarketAssets>('/api/assets/available')
+            if (data) {
+                marketData.value = data
             }
-        } catch (e) {
-            console.error('Fetch companies failed', e)
+        } catch (e: any) {
+            error.value = e.message || 'Failed to fetch market data'
         } finally {
             loading.value = false
         }
     }
 
-    const triggerTick = async () => {
-        // Manual debug trigger
-        await $fetch('/api/game/tick', { method: 'POST' })
-        await fetchCompanies()
+    const buyStock = async (companyId: string, shares: number) => {
+        loading.value = true
+        try {
+            await $fetch('/api/assets/buy', {
+                method: 'POST',
+                body: {
+                    assetType: 'stock',
+                    companyId,
+                    shares
+                }
+            })
+            await fetchMarket() // Refresh
+            return { success: true }
+        } catch (e: any) {
+            return { success: false, error: e.message }
+        } finally {
+            loading.value = false
+        }
     }
 
-    // Helpers
-    const topGainers = computed(() => {
-        return [...companies.value]
-            .sort((a, b) => {
-                const changeA = (a.sharePrice - (a.prevSharePrice || a.sharePrice)) / (a.prevSharePrice || 1)
-                const changeB = (b.sharePrice - (b.prevSharePrice || b.sharePrice)) / (b.prevSharePrice || 1)
-                return changeB - changeA
+    const buyAsset = async (assetId: string, assetType: string) => {
+        loading.value = true
+        try {
+            await $fetch('/api/assets/buy', {
+                method: 'POST',
+                body: {
+                    assetType,
+                    assetId
+                }
             })
-            .slice(0, 5)
-    })
+            await fetchMarket()
+            return { success: true }
+        } catch (e: any) {
+            return { success: false, error: e.message }
+        } finally {
+            loading.value = false
+        }
+    }
+
+    const sellAsset = async (assetId: string) => {
+        loading.value = true
+        try {
+            await $fetch('/api/assets/sell', {
+                method: 'POST',
+                body: { assetId }
+            })
+            await fetchMarket()
+            return { success: true }
+        } catch (e: any) {
+            return { success: false, error: e.message }
+        } finally {
+            loading.value = false
+        }
+    }
 
     return {
-        companies,
-        globalTrend,
+        marketData,
         loading,
-        fetchCompanies,
-        triggerTick,
-        topGainers
+        error,
+        fetchMarket,
+        buyStock,
+        buyAsset,
+        sellAsset
     }
 }

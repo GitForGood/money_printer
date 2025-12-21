@@ -18,11 +18,16 @@ export interface LiquidityState {
     liquidationPenalty: number; // The 'slippage' or penalty cost included in liquidStockValue
 }
 
+import type { PlayerStats } from './player'
+
 export interface FinancialState {
     netWorth: number;
     liquidity: LiquidityState;
     debt: DebtState;
     assets: AssetValuation[];
+    stats?: PlayerStats;
+    qtrIncome: number;
+    qtrExpense: number;
 }
 
 export interface EconomySummaryResponse {

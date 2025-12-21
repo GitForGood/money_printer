@@ -1499,16 +1499,16 @@ _pc0ddydk2FNoDHd6KT5dLjjgRPKdHT_Slno_AZSifo
 const assets = {
   "/index.mjs": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"1ec7d-QoQImbz8WHPmq0y5avIjig30xv0\"",
-    "mtime": "2025-12-21T13:50:26.897Z",
-    "size": 126077,
+    "etag": "\"20334-NEPpMJnw5AclkrtqbOKNzbPZKyk\"",
+    "mtime": "2025-12-21T16:50:11.571Z",
+    "size": 131892,
     "path": "index.mjs"
   },
   "/index.mjs.map": {
     "type": "application/json",
-    "etag": "\"73b4b-/DlWHZzypxts90i//LyIi+tMbfI\"",
-    "mtime": "2025-12-21T13:50:26.897Z",
-    "size": 473931,
+    "etag": "\"79128-4C2ajbYDgmX9hmg3Kjv/YhW5nWg\"",
+    "mtime": "2025-12-21T16:50:11.572Z",
+    "size": 495912,
     "path": "index.mjs.map"
   }
 };
@@ -1922,6 +1922,7 @@ async function getIslandContext(event) {
 }
 
 const _lazy_xkTFsZ = () => Promise.resolve().then(function () { return perform_post$1; });
+const _lazy_2wYhoG = () => Promise.resolve().then(function () { return available_get$1; });
 const _lazy_cK1Ztf = () => Promise.resolve().then(function () { return buy_post$1; });
 const _lazy_lGTpzR = () => Promise.resolve().then(function () { return index_get$1; });
 const _lazy_QFIxob = () => Promise.resolve().then(function () { return sell_post$1; });
@@ -1944,6 +1945,7 @@ const _lazy_0ySXGh = () => Promise.resolve().then(function () { return renderer$
 const handlers = [
   { route: '', handler: _J6F6dX, lazy: false, middleware: true, method: undefined },
   { route: '/api/actions/perform', handler: _lazy_xkTFsZ, lazy: true, middleware: false, method: "post" },
+  { route: '/api/assets/available', handler: _lazy_2wYhoG, lazy: true, middleware: false, method: "get" },
   { route: '/api/assets/buy', handler: _lazy_cK1Ztf, lazy: true, middleware: false, method: "post" },
   { route: '/api/assets', handler: _lazy_lGTpzR, lazy: true, middleware: false, method: "get" },
   { route: '/api/assets/sell', handler: _lazy_QFIxob, lazy: true, middleware: false, method: "post" },
@@ -2425,6 +2427,10 @@ class StockEngine {
       const { error: updateError } = await client.from("companies").upsert(updates);
       if (updateError) throw updateError;
     }
+    const { error: apError } = await client.rpc("regenerate_player_ap");
+    if (apError) {
+      console.error("Failed to regenerate AP:", apError);
+    }
     state.lastTick = (/* @__PURE__ */ new Date()).toISOString();
     state.quarter++;
     StockEngine.saveState(state);
@@ -2529,7 +2535,8 @@ const perform_post = defineEventHandler(async (event) => {
   const updates = {};
   const changes = [];
   for (const req of requirements) {
-    const currentVal = req.resource in updates ? updates[req.resource] : (_a = stats[req.resource]) != null ? _a : 0;
+    const resourceKey = req.resource === "ap" ? "ap_quarterly" : req.resource;
+    const currentVal = resourceKey in updates ? updates[resourceKey] : (_a = stats[resourceKey]) != null ? _a : 0;
     if (req.min !== void 0 && currentVal < req.min) {
       throw createError({ statusCode: 400, statusMessage: `Insufficient ${req.resource} (Required: ${req.min})` });
     }
@@ -2537,7 +2544,7 @@ const perform_post = defineEventHandler(async (event) => {
       if (currentVal < req.cost) {
         throw createError({ statusCode: 400, statusMessage: `Not enough ${req.resource} to pay cost` });
       }
-      updates[req.resource] = currentVal - req.cost;
+      updates[resourceKey] = currentVal - req.cost;
       changes.push({ path: `player.${req.resource}`, value: -req.cost, operation: "add" });
     }
   }
@@ -2567,6 +2574,81 @@ const perform_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProp
   default: perform_post
 }, Symbol.toStringTag, { value: 'Module' }));
 
+var AssetType = /* @__PURE__ */ ((AssetType2) => {
+  AssetType2["Stock"] = "stock";
+  AssetType2["RealEstate"] = "real_estate";
+  AssetType2["Business"] = "business";
+  AssetType2["Crypto"] = "crypto";
+  return AssetType2;
+})(AssetType || {});
+
+const available_get = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  const { data: companies, error: companiesError } = await client.from("companies").select("*").order("ticker");
+  if (companiesError) throw createError({ statusCode: 500, statusMessage: companiesError.message });
+  const { data: availableAssets, error: assetsError } = await client.from("assets").select("*").is("owner_id", null).neq("type", "stock");
+  if (assetsError) throw createError({ statusCode: 500, statusMessage: assetsError.message });
+  const { data: userStocks } = await client.from("assets").select("company_id, shares").eq("owner_id", user.id).eq("type", "stock");
+  const userStockMap = {};
+  if (userStocks) {
+    userStocks.forEach((s) => {
+      if (s.company_id) {
+        userStockMap[s.company_id] = (userStockMap[s.company_id] || 0) + Number(s.shares || 0);
+      }
+    });
+  }
+  const listings = {
+    stocks: companies == null ? void 0 : companies.map((c) => ({
+      ...c,
+      share_price: Number(c.share_price),
+      prev_share_price: Number(c.prev_share_price || c.share_price),
+      owned_shares: userStockMap[c.id] || 0,
+      ownership_percent: (userStockMap[c.id] || 0) / Number(c.total_shares || 1) * 100
+    })),
+    assets: availableAssets == null ? void 0 : availableAssets.map((asset) => {
+      var _a, _b, _c, _d, _e, _f;
+      const props = asset.properties || {};
+      const base = {
+        id: asset.id,
+        ownerId: "",
+        type: asset.type,
+        name: asset.name || "Unknown",
+        acquiredAt: asset.acquired_at || (/* @__PURE__ */ new Date()).toISOString(),
+        baseValue: Number(asset.base_value || 0),
+        currentValue: Number(asset.current_value || asset.base_value || 0)
+      };
+      if (asset.type === AssetType.RealEstate) {
+        return {
+          ...base,
+          type: AssetType.RealEstate,
+          location: props.location || asset.location || "Unknown",
+          condition: Number((_a = props.condition) != null ? _a : 100),
+          isRenovating: Boolean((_b = props.is_renovating) != null ? _b : false)
+        };
+      } else if (asset.type === AssetType.Business) {
+        return {
+          ...base,
+          type: AssetType.Business,
+          sector: props.sector || "Generic",
+          level: Number((_c = props.level) != null ? _c : 1),
+          employees: Number((_d = props.employees) != null ? _d : 0),
+          revenuePerQuarter: Number((_e = props.revenue_per_quarter) != null ? _e : 0),
+          expensePerQuarter: Number((_f = props.expense_per_quarter) != null ? _f : 0)
+        };
+      }
+      return base;
+    })
+  };
+  return listings;
+});
+
+const available_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: available_get
+}, Symbol.toStringTag, { value: 'Module' }));
+
 const buy_post = defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event);
   const client = await serverSupabaseClient(event);
@@ -2591,26 +2673,42 @@ const buy_post = defineEventHandler(async (event) => {
     assetName = company.name;
     properties = { ticker: company.ticker, company_id: company.id };
   } else {
-    cost = amount || 0;
+    const assetId = body.assetId;
+    if (!assetId) throw createError({ statusCode: 400, statusMessage: "Missing assetId for local asset purchase" });
+    const { data: localAsset } = await client.from("assets").select("*").eq("id", assetId).is("owner_id", null).single();
+    if (!localAsset) throw createError({ statusCode: 404, statusMessage: "Listing not found or already sold" });
+    cost = Number(localAsset.current_value);
+    assetName = localAsset.name;
   }
   if (stats.cash < cost) {
     throw createError({ statusCode: 400, statusMessage: "Insufficient funds" });
   }
   await client.from("player_stats").update({ cash: ((stats == null ? void 0 : stats.cash) || 0) - cost }).eq("user_id", user.id);
-  const { data: newAsset, error: assetError } = await client.from("assets").insert({
-    owner_id: user.id,
-    type: assetType,
-    name: assetName,
-    base_value: cost,
-    current_value: cost,
-    company_id: companyId,
-    shares,
-    properties
-  }).select().single();
-  if (assetError) throw createError({ statusCode: 500, statusMessage: "Failed to create asset" });
+  let resultAsset;
+  if (assetType === "stock") {
+    const { data, error: assetError } = await client.from("assets").insert({
+      owner_id: user.id,
+      type: assetType,
+      name: assetName,
+      base_value: cost,
+      current_value: cost,
+      company_id: companyId,
+      shares,
+      properties
+    }).select().single();
+    if (assetError) throw createError({ statusCode: 500, statusMessage: "Failed to create stock asset" });
+    resultAsset = data;
+  } else {
+    const { data, error: assetError } = await client.from("assets").update({
+      owner_id: user.id,
+      acquired_at: (/* @__PURE__ */ new Date()).toISOString()
+    }).eq("id", body.assetId).select().single();
+    if (assetError) throw createError({ statusCode: 500, statusMessage: "Failed to claim asset" });
+    resultAsset = data;
+  }
   return {
     success: true,
-    asset: newAsset,
+    asset: resultAsset,
     cost
   };
 });
@@ -2619,14 +2717,6 @@ const buy_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty
   __proto__: null,
   default: buy_post
 }, Symbol.toStringTag, { value: 'Module' }));
-
-var AssetType = /* @__PURE__ */ ((AssetType2) => {
-  AssetType2["Stock"] = "stock";
-  AssetType2["RealEstate"] = "real_estate";
-  AssetType2["Business"] = "business";
-  AssetType2["Crypto"] = "crypto";
-  return AssetType2;
-})(AssetType || {});
 
 const index_get = defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event);
@@ -2843,16 +2933,16 @@ const summary_get = defineEventHandler(async (event) => {
   if (!user) {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
-  const { data: stats } = await client.from("player_stats").select("cash").eq("user_id", user.id).single();
-  const cash = (stats == null ? void 0 : stats.cash) || 0;
+  const { data: statsRow } = await client.from("player_stats").select("*").eq("user_id", user.id).single();
+  const cash = (statsRow == null ? void 0 : statsRow.cash) || 0;
   const { data: assets } = await client.from("assets").select("*").eq("owner_id", user.id);
   let totalAssetValue = 0;
   let liquidStockValue = 0;
   const assetValuations = [];
+  let companyMap = {};
   if (assets && assets.length > 0) {
     const stockAssets = assets.filter((a) => a.type === "stock" && a.company_id);
     const companyIds = stockAssets.map((a) => a.company_id).filter(Boolean);
-    let companyMap = {};
     if (companyIds.length > 0) {
       const { data: companies } = await client.from("companies").select("*").in("id", companyIds);
       if (companies) {
@@ -2883,6 +2973,25 @@ const summary_get = defineEventHandler(async (event) => {
   if (loans) {
     totalPrincipal = loans.reduce((sum, loan) => sum + (loan.remaining_principal || 0), 0);
   }
+  let qtrIncome = 0;
+  let qtrExpense = 0;
+  if (assets) {
+    for (const asset of assets) {
+      if (asset.type === "stock" && asset.company_id && companyMap[asset.company_id]) {
+        const company = companyMap[asset.company_id];
+        qtrIncome += (asset.shares || 0) * (company.dividend_yield || 0) * (company.share_price || 0);
+      } else if (asset.type === "business") {
+        const props = asset.properties || {};
+        qtrIncome += Number(props.revenue_per_quarter || 0);
+        qtrExpense += Number(props.expense_per_quarter || 0);
+      }
+    }
+  }
+  if (loans) {
+    for (const loan of loans) {
+      qtrExpense += (loan.remaining_principal || 0) * (loan.interest_rate_daily || 0) * 90;
+    }
+  }
   const state = {
     netWorth: cash + totalAssetValue - totalPrincipal,
     liquidity: {
@@ -2898,7 +3007,21 @@ const summary_get = defineEventHandler(async (event) => {
       nextPaymentDue: new Date(Date.now() + 864e5 * 7).toISOString()
       // Placeholder mechanism for now
     },
-    assets: assetValuations
+    assets: assetValuations,
+    stats: statsRow ? {
+      heat: statsRow.heat,
+      karma: statsRow.karma,
+      reputation: statsRow.reputation,
+      insiderLevel: statsRow.insider_level,
+      apInstant: statsRow.ap_instant,
+      maxApInstant: statsRow.max_ap_instant,
+      apQuarterly: statsRow.ap_quarterly,
+      maxApQuarterly: statsRow.max_ap_quarterly,
+      apLongTerm: statsRow.ap_long_term,
+      maxApLongTerm: statsRow.max_ap_long_term
+    } : void 0,
+    qtrIncome,
+    qtrExpense
   };
   return {
     tick: Date.now(),
@@ -3250,7 +3373,7 @@ const create_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePrope
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const profile_get = defineEventHandler(async (event) => {
-  var _a;
+  var _a, _b, _c, _d, _e, _f, _g;
   const user = await serverSupabaseUser(event);
   const client = await serverSupabaseClient(event);
   if (!user) {
@@ -3266,12 +3389,14 @@ const profile_get = defineEventHandler(async (event) => {
       heat: (stats == null ? void 0 : stats.heat) || 0,
       karma: (stats == null ? void 0 : stats.karma) || 0,
       reputation: (stats == null ? void 0 : stats.reputation) || 0,
-      insiderLevel: (stats == null ? void 0 : stats.insider_level) || 0
-    },
-    level: (stats == null ? void 0 : stats.level) || 1,
-    xp: (stats == null ? void 0 : stats.xp) || 0,
-    nextLevelXp: ((stats == null ? void 0 : stats.level) || 1) * 1e3
-    // Simple progression formula
+      insiderLevel: (stats == null ? void 0 : stats.insider_level) || 0,
+      apInstant: (_b = stats == null ? void 0 : stats.ap_instant) != null ? _b : 10,
+      maxApInstant: (_c = stats == null ? void 0 : stats.max_ap_instant) != null ? _c : 10,
+      apQuarterly: (_d = stats == null ? void 0 : stats.ap_quarterly) != null ? _d : 5,
+      maxApQuarterly: (_e = stats == null ? void 0 : stats.max_ap_quarterly) != null ? _e : 5,
+      apLongTerm: (_f = stats == null ? void 0 : stats.ap_long_term) != null ? _f : 2,
+      maxApLongTerm: (_g = stats == null ? void 0 : stats.max_ap_long_term) != null ? _g : 2
+    }
   };
 });
 

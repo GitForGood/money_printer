@@ -3,6 +3,12 @@ export interface PlayerStats {
     karma: number;
     reputation: number;
     insiderLevel: number;
+    apInstant: number;
+    maxApInstant: number;
+    apQuarterly: number;
+    maxApQuarterly: number;
+    apLongTerm: number;
+    maxApLongTerm: number;
 }
 
 export interface PlayerProfile {
@@ -10,7 +16,4 @@ export interface PlayerProfile {
     username: string;
     title: string;
     stats: PlayerStats;
-    level: number;
-    xp: number;
-    nextLevelXp: number;
 }

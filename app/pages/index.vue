@@ -11,32 +11,33 @@
           <DataGrid>
             <div class="stat-item">
               <span class="label">NET WORTH:</span>
-              <span class="value">$1,042,000</span>
+              <span class="value">${{ (netWorth || 0).toLocaleString() }}</span>
             </div>
             <div class="stat-item">
               <span class="label">LIQUID CASH:</span>
-              <span class="value">$42,000</span>
+              <span class="value">${{ (financialState?.liquidity.cash || 0).toLocaleString() }}</span>
             </div>
             <div class="stat-item">
               <span class="label">TOTAL DEBT:</span>
-              <span class="value text-red">$500,000</span>
+              <span class="value text-red">${{ (financialState?.debt.totalPrincipal || 0).toLocaleString() }}</span>
             </div>
             <div class="stat-item">
               <span class="label">QTR INCOME:</span>
-              <span class="value text-green">+$125,000</span>
+              <span class="value text-green">+${{ (qtrIncome || 0).toLocaleString() }}</span>
             </div>
             <div class="stat-item">
               <span class="label">QTR EXPENSE:</span>
-              <span class="value text-red">-$80,000</span>
+              <span class="value text-red">-${{ (qtrExpense || 0).toLocaleString() }}</span>
             </div>
           </DataGrid>
         </TerminalPanel>
 
         <TerminalPanel title="SYSTEM NOTIFICATIONS">
           <ul class="notifications-list">
-             <li>> Market volatility detected in Tech sector.</li>
-             <li>> Loan payment due in 15 days.</li>
-             <li>> New asset opportunity available: 'Downtown Complex'.</li>
+             <li v-if="notifications.length === 0">> No critical alerts. System stable.</li>
+             <li v-for="note in notifications" :key="note.id">
+               > {{ note.title }}: {{ note.description }}
+             </li>
           </ul>
         </TerminalPanel>
       </div>
@@ -55,10 +56,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useEconomy } from '../composables/useEconomy'
+import type { PendingEventResponse } from '../../types/events'
 
-const { financialState, netWorth, liquidity, fetchSummary, loading } = useEconomy()
+const { financialState, netWorth, liquidity, qtrIncome, qtrExpense, fetchSummary, loading } = useEconomy()
+
+const { data: eventData } = await useFetch<PendingEventResponse>('/api/events/pending')
+const notifications = computed(() => eventData.value?.events || [])
 
 onMounted(() => {
   fetchSummary()

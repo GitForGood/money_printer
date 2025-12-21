@@ -1,6 +1,7 @@
 node_modules/
 .nuxt/
 public/
+.output/
 
 .env
 *.log

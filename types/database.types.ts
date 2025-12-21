@@ -82,8 +82,12 @@ export interface Database {
                     reputation: number
                     karma: number
                     insider_level: number
-                    level: number
-                    xp: number
+                    ap_instant: number
+                    max_ap_instant: number
+                    ap_quarterly: number
+                    max_ap_quarterly: number
+                    ap_long_term: number
+                    max_ap_long_term: number
                     created_at: string
                 }
                 Insert: {
@@ -94,8 +98,12 @@ export interface Database {
                     reputation?: number
                     karma?: number
                     insider_level?: number
-                    level?: number
-                    xp?: number
+                    ap_instant?: number
+                    max_ap_instant?: number
+                    ap_quarterly?: number
+                    max_ap_quarterly?: number
+                    ap_long_term?: number
+                    max_ap_long_term?: number
                     created_at?: string
                 }
                 Update: {
@@ -106,8 +114,12 @@ export interface Database {
                     reputation?: number
                     karma?: number
                     insider_level?: number
-                    level?: number
-                    xp?: number
+                    ap_instant?: number
+                    max_ap_instant?: number
+                    ap_quarterly?: number
+                    max_ap_quarterly?: number
+                    ap_long_term?: number
+                    max_ap_long_term?: number
                     created_at?: string
                 }
             }
