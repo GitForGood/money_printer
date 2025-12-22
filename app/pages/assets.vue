@@ -123,6 +123,18 @@
       :message="alertMessage"
       :show-cancel="false"
     />
+
+    <!-- Tutorial Button -->
+    <TutorialButton @click="showTutorial = true" />
+
+    <!-- Tutorial Dialog -->
+    <TerminalDialog
+      v-model:isOpen="showTutorial"
+      :title="tutorialContent.title"
+      :message="tutorialContent.content"
+      :show-cancel="false"
+      @confirm="handleTutorialClose"
+    />
   </NuxtLayout>
 </template>
 
@@ -130,9 +142,11 @@
 import { ref, onMounted } from 'vue'
 import { usePortfolio } from '../composables/usePortfolio'
 import { useEconomy } from '../composables/useEconomy'
+import { useTutorial } from '../composables/useTutorial'
 
 const { assets, fetchAssets, sellAsset, loading } = usePortfolio()
 const { fetchSummary } = useEconomy()
+const { fetchTutorialState, shouldShowTutorial, getTutorialContent, markTutorialComplete } = useTutorial()
 
 const selectedAsset = ref<any>(null)
 const isConfirmOpen = ref(false)
@@ -140,12 +154,26 @@ const isAlertOpen = ref(false)
 const confirmMessage = ref('')
 const alertMessage = ref('')
 
+const showTutorial = ref(false)
+const tutorialContent = getTutorialContent('assets')
+
 onMounted(async () => {
     await fetchAssets()
     if (assets.value.length > 0) {
         selectedAsset.value = assets.value[0]
     }
+    
+    // Load tutorial state and auto-show if not completed
+    await fetchTutorialState()
+    if (shouldShowTutorial('assets')) {
+        showTutorial.value = true
+    }
 })
+
+function handleTutorialClose() {
+    markTutorialComplete('assets')
+}
+
 
 function selectAsset(asset: any) {
     selectedAsset.value = asset

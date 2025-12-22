@@ -33,6 +33,8 @@
               <tr>
                 <th @click="sortBy('ticker')" class="sortable text-left">TICKER</th>
                 <th @click="sortBy('name')" class="sortable text-left">COMPANY</th>
+                <th @click="sortBy('volatility')" class="sortable text-right">VOL</th>
+                <th @click="sortBy('dividend_yield')" class="sortable text-right">DIV</th>
                 <th @click="sortBy('share_price')" class="sortable text-right">PRICE</th>
                 <th @click="sortBy('owned_shares')" class="sortable text-right">OWNED/TOTAL</th>
                 <th @click="sortBy('ownership_percent')" class="sortable text-right">OWNERSHIP (%)</th>
@@ -49,6 +51,8 @@
               >
                 <td>{{ stock.ticker }}</td>
                 <td>{{ stock.name }}</td>
+                <td class="text-right text-xs opacity-70">{{ (stock.volatility * 100).toFixed(1) }}%</td>
+                <td class="text-right text-xs text-green">{{ (stock.dividend_yield * 100).toFixed(1) }}%</td>
                 <td class="text-right">${{ stock.share_price.toLocaleString() }}</td>
                 <td class="text-right">{{ stock.owned_shares.toLocaleString() }} / {{ formatLargeNumber(stock.total_shares) }}</td>
                 <td class="text-right">{{ stock.ownership_percent.toFixed(1) }}%</td>
@@ -197,6 +201,18 @@
         <p class="opacity-50">> SELECT AN ITEM FOR DEEP INSPECTION</p>
       </div>
     </template>
+
+    <!-- Tutorial Button -->
+    <TutorialButton @click="showTutorial = true" />
+
+    <!--Tutorial Dialog -->
+    <TerminalDialog
+      v-model:isOpen="showTutorial"
+      :title="tutorialContent.title"
+      :message="tutorialContent.content"
+      :show-cancel="false"
+      @confirm="handleTutorialClose"
+    />
   </NuxtLayout>
 </template>
 
@@ -204,9 +220,11 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useMarket } from '../composables/useMarket'
 import { useEconomy } from '../composables/useEconomy'
+import { useTutorial } from '../composables/useTutorial'
 
 const { marketData, fetchMarket, buyStock, buyAsset } = useMarket()
 const { fetchSummary } = useEconomy()
+const { fetchTutorialState, shouldShowTutorial, getTutorialContent, markTutorialComplete } = useTutorial()
 
 const activeTab = ref('stocks')
 const sortKey = ref('ticker')
@@ -222,9 +240,23 @@ const selectedAsset = ref<any>(null)
 
 const selectedItem = ref<any>(null)
 
-onMounted(() => {
+const showTutorial = ref(false)
+const tutorialContent = getTutorialContent('search')
+
+onMounted(async () => {
     fetchMarket()
+    
+    // Load tutorial state and auto-show if not completed
+    await fetchTutorialState()
+    if (shouldShowTutorial('search')) {
+        showTutorial.value = true
+    }
 })
+
+function handleTutorialClose() {
+    markTutorialComplete('search')
+}
+
 
 function selectItem(item: any, type: string) {
     selectedItem.value = item

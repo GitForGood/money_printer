@@ -1496,22 +1496,7 @@ const plugins = [
 _pc0ddydk2FNoDHd6KT5dLjjgRPKdHT_Slno_AZSifo
 ];
 
-const assets = {
-  "/index.mjs": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"20334-NEPpMJnw5AclkrtqbOKNzbPZKyk\"",
-    "mtime": "2025-12-21T16:50:11.571Z",
-    "size": 131892,
-    "path": "index.mjs"
-  },
-  "/index.mjs.map": {
-    "type": "application/json",
-    "etag": "\"79128-4C2ajbYDgmX9hmg3Kjv/YhW5nWg\"",
-    "mtime": "2025-12-21T16:50:11.572Z",
-    "size": 495912,
-    "path": "index.mjs.map"
-  }
-};
+const assets = {};
 
 function readAsset (id) {
   const serverDir = dirname$1(fileURLToPath(globalThis._importMeta_.url));
@@ -1939,7 +1924,11 @@ const _lazy_5V25HQ = () => Promise.resolve().then(function () { return pay_post$
 const _lazy_K0uDdx = () => Promise.resolve().then(function () { return take_post$1; });
 const _lazy_quZYuk = () => Promise.resolve().then(function () { return companies_get$1; });
 const _lazy_16rMgu = () => Promise.resolve().then(function () { return create_post$1; });
+const _lazy_JtoSFa = () => Promise.resolve().then(function () { return bankruptcy_post$1; });
+const _lazy_x9c58z = () => Promise.resolve().then(function () { return initialize_post$1; });
 const _lazy_iI7KoR = () => Promise.resolve().then(function () { return profile_get$1; });
+const _lazy_DvB0Pn = () => Promise.resolve().then(function () { return tutorialState_get$1; });
+const _lazy_kBrZ4S = () => Promise.resolve().then(function () { return tutorialState_post$1; });
 const _lazy_0ySXGh = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
@@ -1962,7 +1951,11 @@ const handlers = [
   { route: '/api/loans/take', handler: _lazy_K0uDdx, lazy: true, middleware: false, method: "post" },
   { route: '/api/market/companies', handler: _lazy_quZYuk, lazy: true, middleware: false, method: "get" },
   { route: '/api/market/create', handler: _lazy_16rMgu, lazy: true, middleware: false, method: "post" },
+  { route: '/api/player/bankruptcy', handler: _lazy_JtoSFa, lazy: true, middleware: false, method: "post" },
+  { route: '/api/player/initialize', handler: _lazy_x9c58z, lazy: true, middleware: false, method: "post" },
   { route: '/api/player/profile', handler: _lazy_iI7KoR, lazy: true, middleware: false, method: "get" },
+  { route: '/api/player/tutorial-state', handler: _lazy_DvB0Pn, lazy: true, middleware: false, method: "get" },
+  { route: '/api/player/tutorial-state', handler: _lazy_kBrZ4S, lazy: true, middleware: false, method: "post" },
   { route: '/__nuxt_error', handler: _lazy_0ySXGh, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_0ySXGh, lazy: true, middleware: false, method: undefined }
@@ -3372,6 +3365,152 @@ const create_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePrope
   default: create_post
 }, Symbol.toStringTag, { value: 'Module' }));
 
+const BEGINNER_PLAYER_TEMPLATE = {
+  /**
+   * Profile defaults
+   */
+  profile: {
+    title: "Day Trader"
+    // username will be derived from email if not provided
+  },
+  /**
+   * Player stats defaults
+   * All new players start with these values
+   */
+  stats: {
+    // Starting liquid cash
+    cash: 1e4,
+    // Hidden metrics (not visible to player directly)
+    heat: 0,
+    // Regulatory attention (0-100)
+    karma: 0,
+    // Ethical standing (-100 to 100)
+    reputation: 0,
+    // Public reputation (0-100)
+    insider_level: 0,
+    // Access to insider information (0-10)
+    // Action Point (AP) System - Instant (daily tasks/trades)
+    ap_instant: 10,
+    max_ap_instant: 10,
+    // Action Point (AP) System - Quarterly (tactical decisions)
+    ap_quarterly: 5,
+    max_ap_quarterly: 5,
+    // Action Point (AP) System - Long-term (strategic projects)
+    ap_long_term: 2,
+    max_ap_long_term: 2,
+    // Legacy AP field (deprecated but kept for compatibility)
+    ap: 10
+  }};
+function getProfileDefaults(email) {
+  return {
+    ...BEGINNER_PLAYER_TEMPLATE.profile,
+    username: (email == null ? void 0 : email.split("@")[0]) || "Operator"
+  };
+}
+function getStatsDefaults() {
+  return { ...BEGINNER_PLAYER_TEMPLATE.stats };
+}
+
+const bankruptcy_post = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  try {
+    const { error: assetsError } = await client.from("assets").delete().eq("owner_id", user.id);
+    if (assetsError) {
+      console.error("Error deleting assets:", assetsError);
+      throw new Error("Failed to delete assets");
+    }
+    const { error: loansError } = await client.from("loans").delete().eq("borrower_id", user.id);
+    if (loansError) {
+      console.error("Error deleting loans:", loansError);
+      throw new Error("Failed to delete loans");
+    }
+    const statsDefaults = getStatsDefaults();
+    const { error: statsError } = await client.from("player_stats").update(statsDefaults).eq("user_id", user.id);
+    if (statsError) {
+      console.error("Error resetting stats:", statsError);
+      throw new Error("Failed to reset stats");
+    }
+    const { error: tutorialError } = await client.rpc("reset_tutorial_state", { p_user_id: user.id });
+    if (tutorialError) {
+      console.error("Error resetting tutorial state:", tutorialError);
+    }
+    return {
+      success: true,
+      message: "Bankruptcy declared. All assets liquidated, debts cleared, stats reset to beginner template.",
+      userId: user.id
+    };
+  } catch (error) {
+    console.error("Bankruptcy error:", error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: error.message || "Failed to complete bankruptcy reset"
+    });
+  }
+});
+
+const bankruptcy_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: bankruptcy_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const initialize_post = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const { data: existingStats } = await client.from("player_stats").select("user_id").eq("user_id", user.id).single();
+  if (existingStats) {
+    return {
+      success: false,
+      message: "Player already initialized",
+      alreadyExists: true
+    };
+  }
+  const profileDefaults = getProfileDefaults(user.email);
+  const { error: profileError } = await client.from("profiles").upsert({
+    id: user.id,
+    ...profileDefaults
+  });
+  if (profileError) {
+    console.error("Profile creation error:", profileError);
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Failed to create profile"
+    });
+  }
+  const statsDefaults = getStatsDefaults();
+  const { error: statsError } = await client.from("player_stats").insert({
+    user_id: user.id,
+    ...statsDefaults
+  });
+  if (statsError) {
+    console.error("Stats creation error:", statsError);
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Failed to create player stats"
+    });
+  }
+  const { error: tutorialError } = await client.rpc("initialize_tutorial_state", { p_user_id: user.id });
+  if (tutorialError) {
+    console.error("Tutorial state initialization error:", tutorialError);
+  }
+  return {
+    success: true,
+    message: "Player initialized successfully",
+    userId: user.id
+  };
+});
+
+const initialize_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: initialize_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
 const profile_get = defineEventHandler(async (event) => {
   var _a, _b, _c, _d, _e, _f, _g;
   const user = await serverSupabaseUser(event);
@@ -3403,6 +3542,76 @@ const profile_get = defineEventHandler(async (event) => {
 const profile_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
   default: profile_get
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const tutorialState_get = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const { data: states, error } = await client.from("tutorial_state").select("*").eq("user_id", user.id).order("page_id");
+  if (error) {
+    console.error("Error fetching tutorial state:", error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Failed to fetch tutorial state"
+    });
+  }
+  if (!states || states.length === 0) {
+    const { error: initError } = await client.rpc("initialize_tutorial_state", { p_user_id: user.id });
+    if (initError) {
+      console.error("Error initializing tutorial state:", initError);
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Failed to initialize tutorial state"
+      });
+    }
+    const { data: newStates } = await client.from("tutorial_state").select("*").eq("user_id", user.id).order("page_id");
+    return { states: newStates || [] };
+  }
+  return { states };
+});
+
+const tutorialState_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: tutorialState_get
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const tutorialState_post = defineEventHandler(async (event) => {
+  const user = await serverSupabaseUser(event);
+  const client = await serverSupabaseClient(event);
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const body = await readBody(event);
+  const { pageId } = body;
+  if (!pageId) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Missing pageId"
+    });
+  }
+  const { data: state, error } = await client.from("tutorial_state").update({
+    completed: true,
+    completed_at: (/* @__PURE__ */ new Date()).toISOString()
+  }).eq("user_id", user.id).eq("page_id", pageId).select().single();
+  if (error) {
+    console.error("Error updating tutorial state:", error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Failed to update tutorial state"
+    });
+  }
+  return {
+    success: true,
+    state
+  };
+});
+
+const tutorialState_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: tutorialState_post
 }, Symbol.toStringTag, { value: 'Module' }));
 
 function renderPayloadResponse(ssrContext) {

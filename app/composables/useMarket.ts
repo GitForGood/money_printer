@@ -10,6 +10,8 @@ export interface MarketStock {
     total_shares: number;
     owned_shares: number;
     ownership_percent: number;
+    volatility: number;
+    dividend_yield: number;
 }
 
 export interface MarketAssets {

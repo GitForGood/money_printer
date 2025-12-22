@@ -52,22 +52,49 @@
         </TerminalPanel>
       </div>
     </div>
+
+    <!-- Tutorial Button -->
+    <TutorialButton @click="showTutorial = true" />
+
+    <!-- Tutorial Dialog -->
+    <TerminalDialog
+      v-model:isOpen="showTutorial"
+      :title="tutorialContent.title"
+      :message="tutorialContent.content"
+      :show-cancel="false"
+      @confirm="handleTutorialClose"
+    />
   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useEconomy } from '../composables/useEconomy'
+import { useTutorial } from '../composables/useTutorial'
 import type { PendingEventResponse } from '../../types/events'
 
 const { financialState, netWorth, liquidity, qtrIncome, qtrExpense, fetchSummary, loading } = useEconomy()
+const { fetchTutorialState, shouldShowTutorial, getTutorialContent, markTutorialComplete } = useTutorial()
 
 const { data: eventData } = await useFetch<PendingEventResponse>('/api/events/pending')
 const notifications = computed(() => eventData.value?.events || [])
 
-onMounted(() => {
+const showTutorial = ref(false)
+const tutorialContent = getTutorialContent('dashboard')
+
+onMounted(async () => {
   fetchSummary()
+  
+  // Load tutorial state and auto-show if not completed
+  await fetchTutorialState()
+  if (shouldShowTutorial('dashboard')) {
+    showTutorial.value = true
+  }
 })
+
+function handleTutorialClose() {
+  markTutorialComplete('dashboard')
+}
 </script>
 
 <style scoped>

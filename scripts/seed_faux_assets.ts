@@ -138,10 +138,23 @@ function generateTicker() {
     return ticker;
 }
 
+// Smart rounding: rounds to approximately 1% of the value
+function smartRound(value: number): number {
+    if (value < 10000) {
+        return Math.round(value / 100) * 100; // Round to nearest $100
+    } else if (value < 1000000) {
+        return Math.round(value / 1000) * 1000; // Round to nearest $1,000
+    } else {
+        return Math.round(value / 10000) * 10000; // Round to nearest $10,000
+    }
+}
+
 function generateRealEstate() {
     const cities = ['Neo-Tokyo', 'New York Alpha', 'London Metro', 'Mars Colony', 'Crypto Valley'];
     const city = cities[Math.floor(Math.random() * cities.length)];
-    const value = 500000 + Math.random() * 9500000;
+    // Range: $20,000 to $10,000,000
+    const rawValue = 20000 + Math.random() * 9980000;
+    const value = smartRound(rawValue);
 
     return {
         id: uuidv4(),

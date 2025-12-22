@@ -48,14 +48,32 @@
       <div class="nav-spacer"></div>
       
       <AsciiDivider />
+      <ActionButton @click="handleBankruptcy" class="nav-item bankruptcy-btn">DECLARE BANKRUPTCY</ActionButton>
       <ActionButton @click="requestLogout" class="nav-item">LOGOUT</ActionButton>
     </nav>
+
+    <!-- Bankruptcy Confirm Dialog -->
+    <TerminalDialog
+      v-model:isOpen="isBankruptcyDialogOpen"
+      title="DECLARE BANKRUPTCY"
+      :message="bankruptcyMessage"
+      @confirm="executeBankruptcy"
+    />
+
+    <!-- Bankruptcy Result Dialog -->
+    <TerminalDialog
+      v-model:isOpen="isResultDialogOpen"
+      title="SYSTEM NOTIFICATION"
+      :message="resultMessage"
+      :show-cancel="false"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { inject, onMounted } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { useEconomy } from '../composables/useEconomy'
+import { useRouter } from 'vue-router'
 
 const { 
   financialState, 
@@ -70,6 +88,56 @@ const {
   maxApLongTerm
 } = useEconomy()
 const requestLogout = inject('requestLogout', () => {})
+const router = useRouter()
+
+const isBankruptcyDialogOpen = ref(false)
+const isResultDialogOpen = ref(false)
+const resultMessage = ref('')
+
+const bankruptcyMessage = `> WARNING: CRITICAL ACTION DETECTED
+
+This will PERMANENTLY:
+- Liquidate ALL assets (stocks, real estate, businesses)
+- Erase ALL outstanding debts
+- Reset cash to beginner template ($10,000)
+- Reset all stats (AP, karma, heat, reputation)
+- Reset ALL tutorial progress
+
+This action is IRREVERSIBLE.
+
+Do you wish to proceed?`
+
+function handleBankruptcy() {
+  isBankruptcyDialogOpen.value = true
+}
+
+async function executeBankruptcy() {
+  try {
+    const response = await $fetch('/api/player/bankruptcy', {
+      method: 'POST'
+    })
+
+    if (response.success) {
+      resultMessage.value = '> BANKRUPTCY DECLARED\n\nAll assets liquidated. Debts cleared. Profile reset to beginner state. You may now rebuild your empire.'
+      isResultDialogOpen.value = true
+
+      // Refresh economy data
+      await fetchSummary()
+
+      // Redirect to dashboard after a delay
+      setTimeout(() => {
+        router.push('/')
+      }, 3000)
+    } else {
+      resultMessage.value = '> BANKRUPTCY FAILED\n\nSystem error. Profile reset could not be completed.'
+      isResultDialogOpen.value = true
+    }
+  } catch (error) {
+    console.error('Bankruptcy error:', error)
+    resultMessage.value = '> BANKRUPTCY FAILED\n\nCritical system error encountered.'
+    isResultDialogOpen.value = true
+  }
+}
 
 onMounted(() => {
   fetchSummary()
@@ -126,6 +194,16 @@ onMounted(() => {
 
 .nav-spacer {
     flex-grow: 1;
+}
+
+.bankruptcy-btn {
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+
+.bankruptcy-btn:hover {
+  opacity: 1;
+  border-color: #ef4444;
 }
 
 .text-red-500 {

@@ -13,10 +13,11 @@ Growth: Net worth grows exponentially. The goal is "Number Go Up".
 ### 3.1. Time System
 Real-time Clock: The game runs perpetually.
 Game Tick: 1 Real-time Day = 1 Financial Quarter (3 months).
+AP Regeneration: Instant and Quarterly AP pools reset at the start of every tick (Midnight UTC).
 Pacing:
-Instant Actions: Buying/Selling liquid stocks, taking small payday loans.
-Short-term Actions (1 Day/Quarter): Renovation, small business pivot, hiring staff.
-Long-term Actions (4 Days/Year): Building new HQ, lobbying for major legislation, corporate acquisitions.
+- **Instant Actions**: No AP or Instant AP (Stock trading, check stats).
+- **Short-term Actions**: Quarterly AP (Small renovations, refinancing, personnel moves).
+- **Long-term Actions**: Bandwidth / Long-term AP (Corporate acquisitions, lobbying, real estate development).
 ### 3.2. Assets & Business Ventures
 Players can create or buy:
 
@@ -36,9 +37,11 @@ Buy, Borrow, Die: Don't sell assets. Borrow against them. Loans aren't income.
 Write-offs: Depreciation of real estate. Business expenses.
 Offshore: High setup cost, lowers tax rate, risk of audit/seizure.
 
-### 3.5. Action Economy
-Action Points (AP): Player has limited "Attention" or "Bandwidth".
-Expansion: Hiring a "CFO" or "Asset Manager" costs salary but essentially buys more automation or AP, allowing concurrent long-term plans.
+### 3.5. Action Economy (3-Tier AP System)
+The player has three distinct pools of Action Points, representing different levels of focus:
+- **Instant AP**: Refreshes daily. Used for immediate, low-stakes administrative tasks and market interactions.
+- **Quarterly AP**: Refreshes daily. Represented as tactical capacity. Used for structural changes to assets (e.g., renovations, hiring, taking loans).
+- **Bandwidth (Long-Term AP)**: A semi-permanent pool. Represents strategic oversight. Starting a project "consumes" bandwidth until the project is completed or canceled. Hiring executives increases the max Bandwidth limit.
 
 ### 3.6. Event System & Hidden Metrics
 Heat & Karma (Hidden Stats): Certain actions (skirting taxes, layoffs, aggressive takeovers) increase "Heat" or "Karma". The player cannot see the exact values, but messages from "Associates" will hint at it.
@@ -71,30 +74,42 @@ Players can trigger events by:
 
 These events are triggered by the game, not by the player. These events should present the player with a course of action with some hints of the general direction of the outcomes but should keep away from specifics and should be a bit cryptic. The effects can be something like "You have been targeted by a competitor" or "You have been audited by the IRS". The player should then have to make a decision based on their current state and the hints given. An event should be blocking - requiring the player to make a decision before the game can continue. If a player exits the game before resolving it they will be prompted to resolve it when they return. 
 
-### 3.10. Costs
-Players incurr quarterly costs for:
-- Rent
-- Salaries
-- Utilities
+### 3.10. Costs & Projections
+Costs are aggregated into a **QTR Expense** metric visible on the Executive Dashboard.
+- **Fixed Costs**: Management salaries, specialized facility maintenance.
+- **Variable Costs**: Business expenses (scaled with level/employees), Loan Interest (calculated daily at 90 days per quarter).
+- **Projections**: The system provides a live view of upcoming quarterly outflows.
 
-These are all visible as projections and are based on the current state of the player. Most of the upgrades will come with increasing costs and the player will have to make a decision on whether to upgrade or not based on their current state and the hints given.
-Costs can be divided into fixed and variable costs. Fixed costs are costs that do not change with the size of the player's business. Variable costs are costs that change with the size of the player's business. They can be further divided into business costs and personal costs, personal costs have to be paid with cash so either money from a loan or taxed income from other sources (dividends, capital gains, etc.)
-### 3.11. Revenue
-Revenue is visible as projections and are based on the current state of the player. Revenue can be further divided into business revenue and personal revenue, business revenue is the income from the player's business and personal revenue is the income from other sources (dividends, capital gains, etc.)
+### 3.11. Revenue & Projections
+Revenue is aggregated into a **QTR Income** metric visible on the Executive Dashboard.
+- **Passive Income**: Stock dividends (yield % * current share price).
+- **Active Income**: Business operational revenue (scaled with level, strategy, and market conditions).
+- **Automation**: Once a business has a manager, revenue is automatically collected and added to liquidity at the end of each tick.
 ### 3.12. Taxes
 Taxes are paid yearly, they are 30% on asset profits and 50% on business profit that is taken out as salary. Any leftover profit at the end of the year is automatically taken out as salary and is taxed accordingly. Registered losses are deductible from both of these equations. Asset portfolios come in 2 forms, one with the evaluation of their portfolio is taxed 2% yearly and no tax has to be paid on profits, while the other incurrs a tax of 30% on profits when an asset is sold and personal taxes can register losses to offset personal income taxes.
 ### 3.13. Interest
 Interest is paid monthly on loans and is based on the current interest rate. The interest rate is based on the current state of the player and the current market conditions. The player should be able to set how much of their quarterly payments on their loans to be paying off the loan but should always cover interest payments at least.
 
+### 3.14. Marketplace & Local Assets
+The **Marketplace Terminal** serves as the central hub for asset discovery:
+- **Global Equities**: A sortable list of all companies. Shows Volatility (VOL), Dividend Yield (DIV), and current Share Price.
+- **Ownership Tracking**: For stocks, the terminal tracks the percentage of total shares owned by the player, rounded to 0.1%.
+- **Local Listings**: Available Real Estate and Business ventures that are currently unowned (System-generated).
+- **Detailed Inspection**: A selection sidebar provides verbose descriptions, operational stats, and historical context for every listing.
 ## 4. User Interface & Experience (UI/UX)
 Philosophy: "Bloomberg Terminal meets Text Adventure".
 
-Visuals: Monospaced fonts, raw data tables, ASCII charts.
+**Core Views:**
+- **Executive Dashboard**: High-contrast summary of Net Worth, Liquidity, Debt, and QTR Projections. Includes a dynamic "System Notifications" feed for pending events.
+- **Marketplace Terminal**: Data-dense table view for browsing and executing trades on global and local assets.
+- **Asset Portfolio**: Detailed management of owned properties with individual ROI tracking and operational controls.
+- **Debt Management**: Central interface for tracking loan health, interest rates, and liquidation risks.
+
+Visuals: Monospaced fonts, raw data tables, ASCII charts, high-contrast HSL color palettes.
 Responsiveness:
-Desktop: Dashboard view. multiple panels visible.
-Mobile: Stacked view. Swipe between portfolios/news/actions.
-Feedback: Satisfying "clack" sounds, number tickers rolling up.
-Bland but Stylized: Avoid "cartoony" graphics. It should feel like serious financial software, but gamified with clear progress bars and alerts.
+- **Desktop**: Three-column layout with center workspace and situational sidebars.
+- **Mobile**: Stacked view. Navigation via bottom bar or sidebar menu.
+Feedback: Satisfying glassmorphism effects, micro-animations for data updates, and high-readability terminal-type typography (e.g., Courier New, Inter).
 
 ## 5. Future Multiplayer
 Market Listing: Successful player companies can IPO. Other players can buy stock in them.
